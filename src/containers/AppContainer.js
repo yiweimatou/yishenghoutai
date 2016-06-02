@@ -6,7 +6,6 @@ class AppContainer extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired,
-    routerKey: PropTypes.number,
     store: PropTypes.object.isRequired
   }
 
@@ -14,12 +13,12 @@ class AppContainer extends React.Component {
     const { history, routes, store } = this.props
 
     return (
-      <Provider store={store}>
-        <div style={{ height: '100%' }}>
+      <Provider store = { store }>
+        <div style = { { height: '100%' } }>
           <Router 
-            history={history} 
-            children={routes} 
-            onUpdate={() => window.scrollTo(0, 0)}
+            history = { history } 
+            children = { routes }
+            onUpdate = { () => window.scrollTo(0, 0) }
            />
         </div>
       </Provider>

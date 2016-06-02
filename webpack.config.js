@@ -1,8 +1,8 @@
-const path = require('path');
-const webpack = require ('webpack');
-const cssnano = require ('cssnano');
-const HtmlWebpackPlugin = require ('html-webpack-plugin');
-const ExtractTextPlugin = require ('extract-text-webpack-plugin');
+const path = require('path')
+const webpack = require ('webpack')
+// const cssnano = require ('cssnano')
+const HtmlWebpackPlugin = require ('html-webpack-plugin')
+const ExtractTextPlugin = require ('extract-text-webpack-plugin')
 
 const __DEV__ = process.env.NODE_ENV !== 'production'
 const webpackConfig = {
@@ -17,9 +17,10 @@ const webpackConfig = {
                 component:path.join(__dirname,'src','components'),
                 pages:path.join(__dirname,'src/components/pages'),
                 constants:path.join(__dirname,'src/constants'),
-                models:path.join(__dirname,'src/models'),
-                utils:path.join(__dirname,'src/utils'),
-
+                reducers:path.join(__dirname,'src/reducers'),
+                actioncreators:path.join(__dirname,'src/actioncreators'),
+                containers:path.join(__dirname,'src/containers'),
+                utils:path.join(__dirname,'src/utils')
             }
         },
         module: {}
@@ -30,11 +31,15 @@ const webpackConfig = {
 const APP_ENTRY_PATH = path.join(__dirname, 'src') + '/client.js'
 webpackConfig.entry = {
     app: __DEV__ ? [
+        'babel-polyfill',
         APP_ENTRY_PATH,
         'webpack-hot-middleware/client?path=/__webpack_hmr'
     ] : APP_ENTRY_PATH,
     vendor: [
         'react',
+        'react-redux',
+        'react-router-redux',
+        'react-tap-event-plugin',
         'react-router',
         'react-dom',
         'redux'
@@ -71,17 +76,21 @@ if (__DEV__) {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            "process.env": {
-                NODE_ENV: JSON.stringify("development")
-            }
+            'process.env': {
+                NODE_ENV: JSON.stringify('development')
+            },
+            __DEV__:true,
+            Promise:require('bluebird')
         })
     )
 } else {
     webpackConfig.plugins.push(
         new webpack.DefinePlugin({
-            "process.env": {
-                NODE_ENV: JSON.stringify("production")
-            }
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            },
+            __DEV__:false,
+            Promise:require('bluebird')
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),

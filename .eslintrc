@@ -1,16 +1,18 @@
 {
     "env": {
         "browser": true,
+        "node": true,
         "commonjs": true,
         "es6": true
     },
-    "parser": "babel-eslint",    
+    "parser": "babel-eslint",
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
+            "classes": true,
             "experimentalObjectRestSpread": true,
             "jsx": true
         }
@@ -19,6 +21,11 @@
         "standard",
         "react"
     ],
+    "globals": {
+        "__DEV__": true,
+        "__PROD__": false,
+        "__DEBUG__": true
+    },
     "settings": {
         "import/parser": "babel-eslint",
         "import/resolve": {
@@ -41,6 +48,8 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "no-console": 0,
+        "no-case-declarations": 0
     }
 }

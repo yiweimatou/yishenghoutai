@@ -23,7 +23,7 @@ const middleware = webpackMiddleware(compiler, {
         chunkModules: false,
         modules: false
     }
-});
+})
 
 app.use(middleware)
 app.use(webpackHotMiddleware(compiler))
@@ -31,11 +31,11 @@ app.use(express.static(path.join(__dirname, '../', '/static')))
 app.get('*', function response(req, res) {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '../', '/dist/index.html')))
     res.end()
-});
+})
 
 app.listen(port, (err) => {
     if (err) {
-        console.error(err);
+        console.error(err)
     }
     console.log(`==> server is now running at http://localhost:${port}/ .`)
-});
+})
