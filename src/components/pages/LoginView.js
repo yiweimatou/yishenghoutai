@@ -1,6 +1,4 @@
-import React,{
-    createElement
-} from 'react'
+import React from 'react'
 import {
     Field
 } from 'redux-form'
@@ -8,8 +6,7 @@ import {
     RaisedButton,
     Paper 
 } from 'material-ui'
-import mapError from '../mapError'
-import TextField from '../TextField'
+import TextField from '../ReduxForm/TextField'
 
 const styles = {
     container:{
@@ -31,7 +28,7 @@ const styles = {
         alignItems:'center'        
     }
 }
-class Login extends React.Component {
+class LoginView extends React.Component {
     static displayName = 'Login'
     render() {
         const {
@@ -44,9 +41,9 @@ class Login extends React.Component {
             <div style = { styles.container }>
                 <Paper style = { styles.paper }>
                     <form onSubmit = { handleSubmit } style={ styles.form }>
-                        <Field name = 'account' 
-                            type = 'text' hintText = '帐号' 
-                            floatingLabelText = '帐号' 
+                        <Field name = 'mobile' 
+                            type = 'text' hintText = '手机号码' 
+                            floatingLabelText = '手机号码' 
                             component = { TextField }
                         />
                         <Field name = 'pwd' 
@@ -67,7 +64,7 @@ class Login extends React.Component {
     }
 }
 
-Login.propTypes = {
+LoginView.propTypes = {
     handleSubmit:React.PropTypes.func.isRequired,
     submitting:React.PropTypes.bool.isRequired,
     onSubmit:React.PropTypes.func.isRequired,
@@ -75,4 +72,4 @@ Login.propTypes = {
 }
 
 
-export default Login
+export default LoginView

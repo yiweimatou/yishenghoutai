@@ -4,13 +4,15 @@ import {reducer as formReducer } from 'redux-form'
 import auth from '../reducers/auth'
 import {
   LOGOUT_SUCCESS
-} from '../constants/actiontypes/auth'
+} from '../constants/ActionTypes'
+import { reducer as toastrReducer } from 'react-redux-toastr'
 
 export const makeRootReducer = (asyncReducers) => {
   const appReducer = combineReducers({
     // Add sync reducers here
     router,
     auth,
+    toastr:toastrReducer,
     form:formReducer,
     ...asyncReducers
   })

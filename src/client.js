@@ -21,18 +21,13 @@ injectTapEventPlugin()
 // react-router-redux reducer under the routerKey "router" in src/routes/index.js,
 // so we need to provide a custom `selectLocationState` to inform
 // react-router-redux of its location.
-const initailState = localStorage['YMT_INITIAL_STATE'] === undefined ?
-    undefined : JSON.parse(localStorage['YMT_INITIAL_STATE'])
+const initailState = localStorage['__INITIAL_STATE__'] === undefined ?
+    undefined : JSON.parse(localStorage['__INITIAL_STATE__'])
 const store = createStore(initailState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store, {
     selectLocationState: (state) => state.router
 })
 const routes = require('./routes').default(store)
-if (__DEV__) {
-  if (window.devToolsExtension) {
-    window.devToolsExtension.open()
-  }
-}
 render( 
     <AppContainer history = { history }
     routes = { routes }

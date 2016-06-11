@@ -3,31 +3,36 @@ import home from './home'
 import App from '../components/App'
 import {
     AUTHENTICATED
-} from '../constants/actiontypes/auth'
-import {
-    replace
-} from 'react-router-redux'
+} from '../constants/ActionTypes'
+import MainContainer from '../containers/MainContainer'
+import organize from './organize'
 
 const routes = store => ({
     component: App,
     childRoutes: [
         LoginRoute, {
             path: '/',
+            component: MainContainer,
             indexRoute: {
                 component: require('../components/pages/Home').default
             },
-            onEnter(nextState) {
+            onEnter(nextState,replace) {
                 if (store.getState().auth.status !== AUTHENTICATED) {
-                    store.dispatch(replace({
+                    replace({
                         pathname: '/login',
                         state: {
                             nextPathname: nextState.location.pathname
                         }
-                    }))
+                    })
                 }
             },
             childRoutes: [
-                home
+                home, 
+                organize( store ),
+                {
+                    path: '*',
+                    component: require('../components/pages/PageNotFound').default
+                }
             ]
         }
     ]

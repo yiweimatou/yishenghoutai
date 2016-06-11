@@ -1,5 +1,0 @@
-export const UPLOAD_COVER = 'UPLOAD_COVER'
-export const UPLOAD_PPT = 'UPLOAD_PPT'
-export const UPLOAD_YUNBOOK = 'UPLOAD_YUNBOOK'
-export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS'
-export const UPLOAD_FAIL = 'UPLOAD_FAIL'

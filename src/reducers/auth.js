@@ -5,16 +5,36 @@ import {
     LOGOUT,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+    SET_ADMIN,
+    SET_DOCTOR,
+    SET_DOCTORASSISTANT,
     AUTHENTICATED
-} from '../constants/actiontypes/auth.js'
+} from '../constants/ActionTypes'
 
-const initalState = {
-    user: null,
+const initialState = {
+    user: {
+        mobile:''
+    },
     loading: false,
+    admin:false,
+    doctor:false,
+    doctorAssistant:false,
     status: '',
     error: ''
 }
 const ACTION_HANDLERS = {
+    [SET_ADMIN]: state => ({
+        ...state,
+        admin:true
+    }),
+    [SET_DOCTOR] : state => ({
+        ...state,
+        doctor:true
+    }),
+    [SET_DOCTORASSISTANT] : state => ({
+        ...state,
+        doctorAssistant:true
+    }),
     [LOGIN]: state => ({
         ...state,
         loading: true,
@@ -24,7 +44,9 @@ const ACTION_HANDLERS = {
         ...state,
         status: AUTHENTICATED,
         loading: false,
+        error:'',
         user: {
+            mobile:action.mobile,
             id: action.id,
             token: action.token
         }
@@ -51,7 +73,7 @@ const ACTION_HANDLERS = {
         error: action.error
     })
 }
-const auth = (state = initalState, action) => {
+const auth = (state = initialState, action) => {
     const handler = ACTION_HANDLERS[action.type]
     return handler ? handler(state, action) : state
 }

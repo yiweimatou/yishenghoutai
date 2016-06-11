@@ -1,5 +1,4 @@
 import webpack from 'webpack'
-import config from '../config'
 
 const DEFAULT_STATS_FORMAT = {
     chunks: false,

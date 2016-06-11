@@ -15,7 +15,7 @@ import makeRootReducer from './reducers'
 export default (initialState = {}, history) => {
     const middleware = [thunk, routerMiddleware(history)]
     const enhancers = []
-    // enhancers.push(persistState(adapter(window.localStorage), 'YMT_INITIAL_STATE'))
+    // enhancers.push(persistState(adapter(window.localStorage), '__INITIAL_STATE__'))
     if (__DEV__) {
         // middleware.push(logger())
         const devToolsExtension = window.devToolsExtension

@@ -1,8 +1,11 @@
 import fetch from 'isomorphic-fetch'
 import {
     OK,
-    ADMIN_LOGIN_API,
-    ADMIN_LOGOUT_API
+    USER_LOGIN_API,
+    USER_LOGOUT_API,
+    ORGANIZE_INFO_API,
+    LESSON_INFO_API,
+    TEAM_INFO_API
 } from '../constants/api'
 import {
     LOGIN,
@@ -10,8 +13,101 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     LOGOUT_SUCCESS,
-    LOGOUT_FAIL
-} from '../constants/actiontypes/auth'
+    LOGOUT_FAIL,
+    SET_ADMIN,
+    SET_DOCTOR,
+    SET_DOCTORASSISTANT
+} from '../constants/ActionTypes'
+import { toastr } from 'react-redux-toastr'
+
+export const setAdmin = () => {
+    return {
+        type: SET_ADMIN
+    }
+}
+
+export const setDoctor = () => {
+    return {
+        type: SET_DOCTOR
+    }
+}
+
+export const setDoctorAssistant = () => {
+    return {
+        type : SET_DOCTORASSISTANT
+    }
+}
+
+export const checkAdmin = () => {
+    return (dispatch,getState) => {
+        const user =  getState().auth.user
+        return fetch(`${ORGANIZE_INFO_API}?key=${user.id}&token=${user.token}&uid=${user.id}`)
+        .then(response => {
+            if(response.ok) {
+                return response.json()
+            }else{
+                throw new Error(response.statusText)
+            }
+        }).then( data => {
+            if(data.code === OK && data.count > 0){
+                dispatch(setAdmin())
+            }else{
+                throw new Error(data.msg)
+            }
+        }).catch(error => {
+            toastr.error(error.message)
+        })
+
+    }
+}
+
+export const checkDoctor = () => {
+    return (dispatch,getState) => {
+        const user = getState().auth.user
+        return fetch(`${LESSON_INFO_API}?key=${user.id}&token=${user.token}&uid=${user.id}`)
+        .then(response => {
+            if(response.ok) {
+                return response.json()
+            }else{
+                throw new Error(response.statusText)
+            }
+        }).then( data => {
+            if(data.code === OK){
+                if(data.count > 0){
+                    dispatch(setDoctor())
+                }
+            }else{
+                throw new Error(data.msg)
+            }
+        }).catch(error => {
+            toastr.error(error.message)
+        })
+    }
+}
+
+export const checkDoctorAssistant = () => {
+    return (dispatch,getState) => {
+        const user = getState().auth.user
+        return fetch(`${TEAM_INFO_API}?key=${user.id}&token=${user.token}&uid=${user.id}`)
+        .then(response => {
+            if(response.ok) {
+                return response.json()
+            }else{
+                throw new Error(response.statusText)
+            }
+        }).then( data => {
+            if( data.code === OK ){
+                if(data.count > 0){
+                    dispatch(setDoctorAssistant())
+                }
+            }else{
+                throw new Error(data.msg)
+            }
+        }).catch(error => {
+            toastr.error(error.message)
+        })
+    }
+}
 /**
  * login
  */
@@ -24,52 +120,67 @@ export const startLogin = () => {
 export const loginSuccess = (payload) => {
     return {
         type: LOGIN_SUCCESS,
+        mobile: payload.mobile,
         id: payload.id,
         token: payload.token
     }
 }
 
-export const loginFail = error => {
+export const loginFailure = error => {
     return {
         type: LOGIN_FAIL,
         error
     }
 }
 
-export const login = (account, pwd) => {
-        return dispatch => {
-            dispatch(startLogin())
-            return fetch(ADMIN_LOGIN_API, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `account=${account}&pwd=${pwd}`
-            }).then(response => {
-                if (response.ok) {
-                    return response.json()
-                } else {
-                    throw new Error(response.statusText)
+export const login = (mobile, pwd) => {
+    return (dispatch, getState) => {
+        dispatch(startLogin())
+        return fetch(USER_LOGIN_API, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `mobile=${mobile}&pwd=${pwd}&login_type=2`
+        }).then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error(response.statusText)
+            }
+        }).then(data => {
+            if (data.code === OK) {
+                dispatch(loginSuccess({
+                    mobile: mobile,
+                    id: data.key,
+                    token: data.token
+                }))
+                Promise.all([
+                    dispatch(checkAdmin()),
+                    dispatch(checkDoctor()),
+                    dispatch(checkDoctorAssistant())])
+                    .then(() => {
+                        localStorage['__INITIAL_STATE__'] = JSON.stringify({
+                            auth: getState().auth
+                        })
+                })
+                return {
+                    ok: true
                 }
-            }).then(data => {
-                if (data.code === OK) {
-                    dispatch(loginSuccess({
-                        id: data.key,
-                        token: data.token
-                    }))
-                    return data
-                } else {
-                    throw new Error(data.msg)
-                }
-            }).catch(error => {
-                dispatch(loginFail(error.message))
-                return error
-            })
-        }
+            } else {
+                throw new Error(data.msg)
+            }
+        }).catch(error => {
+            dispatch(loginFailure(error.message))
+            return {
+                msg: error.message
+            }
+        })
     }
-    /**
-     * logout
-     */
+}
+/**
+ * logout
+ */
 export const startLogout = () => {
     return {
         type: LOGOUT
@@ -91,15 +202,7 @@ export const logoutFail = error => {
 export const logout = (id, token) => {
     return dispatch => {
         dispatch(startLogout())
-        return fetch(`${ADMIN_LOGOUT_API}?key=${id}&token=${token}`
-        // , {
-        //     // method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     },
-        //     body: `key=${id}&token=${token}`
-        // }
-        ).then(response => {
+        return fetch(`${USER_LOGOUT_API}?key=${id}&token=${token}`).then(response => {
             if (response.ok) {
                 return response.json()
             } else {
@@ -114,7 +217,9 @@ export const logout = (id, token) => {
             }
         }).catch(error => {
             dispatch(logoutFail(error.message))
-            return error
+            return {
+                msg: error.message
+            }
         })
     }
 }
