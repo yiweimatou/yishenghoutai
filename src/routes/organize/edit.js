@@ -31,7 +31,7 @@ const editRoute = store => ({
     getComponent(nextState, cb) {
         require.ensure([], require => {
             cb(null, require('containers/pages/organize/editOrganizeContainer').default)
-        })
+        },'editOrganize')
     }
 })
 

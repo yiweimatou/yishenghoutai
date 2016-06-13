@@ -5,7 +5,9 @@ import {
     AUTHENTICATED
 } from '../constants/ActionTypes'
 import MainContainer from '../containers/MainContainer'
-import organize from './organize'
+import organizeRoute from './organize'
+import lessonRoute from './lesson'
+import yunbookRoute from './yunbook'
 
 const routes = store => ({
     component: App,
@@ -28,7 +30,9 @@ const routes = store => ({
             },
             childRoutes: [
                 home, 
-                organize( store ),
+                organizeRoute( store ),
+                lessonRoute( store ),
+                yunbookRoute( store ),
                 {
                     path: '*',
                     component: require('../components/pages/PageNotFound').default

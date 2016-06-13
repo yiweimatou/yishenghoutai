@@ -1,8 +1,7 @@
 import React from 'react'
 import {
-    AppBar,
-    Paper,
-    Snackbar
+    AppBar//,
+    // Paper
 } from 'material-ui'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -69,9 +68,9 @@ class Main extends React.Component {
                     doctorAssistant = { doctorAssistant }
                 />
                 <div style = { this.state.margin}>
-                    <Paper style = { styles.paper } >
+                    <div style = { styles.paper } >
                         {this.props.children}
-                    </Paper>
+                    </div>
                 </div>
             </div>
         )

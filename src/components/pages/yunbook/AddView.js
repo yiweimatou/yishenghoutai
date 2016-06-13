@@ -1,9 +1,10 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { RaisedButton,SelectField as Select,MenuItem } from 'material-ui'
+import { RaisedButton,MenuItem,SelectField as Select } from 'material-ui'
 import TextField from '../../ReduxForm/TextField'
 import SelectField from '../../ReduxForm/SelectField'
 import ImageUpload from '../../ImageUpload'
+
 
 const styles = {
 	form:{
@@ -37,9 +38,11 @@ const createMenuItems = areas => {
     return items
 }
 class AddView extends React.Component {
-    state = {
+	state = {
         select1:0,
-        select2:0
+        select2:0,
+        items5 : createMenuItems(this.props.areas5),
+        items6 : createMenuItems(this.props.areas6)
     }
     render() {
         const {
@@ -51,14 +54,14 @@ class AddView extends React.Component {
             onChange,
             areas5,areas6,areas4
         } = this.props
-        let items4 = createMenuItems(areas4)
+        const items4 = createMenuItems(areas4)
         let items5 = createMenuItems(areas5)
         let items6 = createMenuItems(areas6)
-        const handleChange = (zoom,event, index, value) => {
+        let handleChange = (zoom,e,index, value) => {
             changeHandler(value,zoom).then(()=>{
                 if(zoom === 5){
                     this.setState({
-                        select1:value
+                        select1 : value
                     })
                     items5 = createMenuItems(areas5)
                 }else if (zoom === 6){
@@ -73,34 +76,33 @@ class AddView extends React.Component {
             <form onSubmit = { handleSubmit } style = { styles.form } >
                 <ImageUpload onChange = { onChange } />
                 <Field  
-                    name = 'lname' 
+                    name = 'title' 
                     type = 'text'
-                    hintText = '课程名称'
-                    floatingLabelText = '课程名称'
+                    hintText = '云板书名称'
+                    floatingLabelText = '云板书名称'
                     component = {TextField}
                     style = { styles.item }
                 />
                 <div style = { styles.selectDiv }>
                     <Select
-                        hintText = '课程名称'
-                        floatingLabelText = '课程分类'
+                        hintText = '云板书分类'
+                        floatingLabelText = '云板书分类'
                         value = { this.state.select1 }
                         onChange = { handleChange.bind(null,5) }
                     >
                         { items4 }
                     </Select>
                     <Select
-                        hintText = '课程名称'
-                        floatingLabelText = '课程分类'
+                        hintText = '云板书名称'
+                        floatingLabelText = '云板书分类'
                         value = { this.state.select2 }
-                        component = { SelectField }
                         onChange = { handleChange.bind(null, 6) }
                      > 
                         { items5 } 
                     </Select>
                     <Field 
-                        floatingLabelText = '课程分类'
-                        hintText = '课程名称'
+                        floatingLabelText = '云板书分类'
+                        hintText = '云板书名称'
                         name = 'aid'
                         component = { SelectField }
                     >
@@ -108,8 +110,8 @@ class AddView extends React.Component {
                     </Field>
                 </div>
                 <Field name = 'descript'
-                        hintText = '课程简介'
-                        floatingLabelText = '课程简介'
+                        hintText = '云板书简介'
+                        floatingLabelText = '云板书简介'
                         component = { TextField }
                         multiLine = { true }
                         rows = { 2 }
@@ -131,7 +133,7 @@ class AddView extends React.Component {
             </form>
         )
     }
-}	
+}
 
 AddView.propTypes = {
     handleSubmit:React.PropTypes.func.isRequired,

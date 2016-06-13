@@ -50,7 +50,7 @@ export const addLesson = ( lesson ) => {
 		return fetch(LESSON_ADD_API,{
 			method : 'POST',
 			headers : {
-				'Content-Type': 'applicaion/x-www-form-urlencode'
+				'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			body : `key=${user.id}&token=${user.token}&${object2string(lesson)}`
 		}).then( response => {
@@ -63,6 +63,7 @@ export const addLesson = ( lesson ) => {
 			if( data.code === OK ){
 				dispatch(addLessonSuccess())
 				toastr.success('新建成功!')
+				return data.identity
 			}else {
 				throw new Error(data.msg)
 			}
@@ -79,9 +80,10 @@ const editLessonRequest = () => {
 	}
 }
 
-const editLessonSuccess = () => {
+const editLessonSuccess = (args) => {
 	return {
-		type : LESSON_EDIT_SUCCESS
+		type : LESSON_EDIT_SUCCESS,
+		args
 	}
 }
 
@@ -99,7 +101,7 @@ export const editLesson = ( args ) => {
 		return fetch(LESSON_EDIT_API,{
 			method : 'PUT',
 			headers : {
-				'Content-Type' : 'applicaion/x-www-form-urlencode'
+				'Content-Type' : 'application/x-www-form-urlencoded'
 			},
 			body : `key=${user.id}&token=${user.token}&${object2string(args)}`
 		}).then( response => {
@@ -110,8 +112,9 @@ export const editLesson = ( args ) => {
 			}
 		}).then( data => {
 			if( data.code === OK ){
-				dispatch(editLessonSuccess())
+				dispatch(editLessonSuccess(args))
 				toastr.success('编辑成功!')
+				return true
 			}else {
 				throw new Error(data.msg)
 			}
@@ -142,8 +145,18 @@ const getLessonFailure = ( errorMessage ) => {
 	}
 }
 
-export const getLesson = ( args ) => {
-	return dispatch => {
+export const getLessonIfNeeded = ( args ) => {
+	return (dispatch,getState) => {
+		const lesson = getState().lesson
+		if(lesson.detail && lesson.detail.lid === args.lid){
+			return
+		}
+		const detail = lesson.list.find(item => {
+			return item.lid === args.lid
+		})
+		if(detail){
+			return dispatch(getLessonSuccess(detail))
+		}
 		dispatch(getLessonRequest())
 		return fetch(`${LESSON_GET_API}?${object2string(args)}`)
 		.then( response => {

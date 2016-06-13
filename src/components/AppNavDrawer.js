@@ -57,8 +57,8 @@ class AppNavDrawer extends React.Component{
 						primaryText="云板书管理" 
 						primaryTogglesNestedList = {true}
 						nestedItems = {[
-							<ListItem primaryText = "新增" value = "/userbook/add" />,
-							<ListItem primaryText = "列表" value = "/userbook/list" />
+							<ListItem primaryText = "新增" value = "/yunbook/add" />,
+							<ListItem primaryText = "列表" value = "/yunbook/list" />
 						]}			
 					/>
 					<ListItem 

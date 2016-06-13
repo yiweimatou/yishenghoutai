@@ -22,7 +22,9 @@ class ListView extends React.Component {
 		} = this.props
 		return (
 				<div style = { styles.root }>
-					<GridList style = { styles.gridList }>
+					<GridList style = { styles.gridList }
+						padding = { 60 }
+					>
 						{
 							list.map( tile  => {
 								return <GridTile

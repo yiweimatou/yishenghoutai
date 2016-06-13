@@ -35,7 +35,7 @@ import {
              ...state,
          loading: false,
          method: '',
-         detail: action.lesson
+         detail: Object.assign({},action.lesson)
      }),
      [LESSON_GET_FAILURE]: (state, action) => ({
              ...state,
@@ -70,10 +70,11 @@ import {
          method: '',
          errorMessage: action.errorMessage
      }),
-     [LESSON_EDIT_SUCCESS]: state => ({
+     [LESSON_EDIT_SUCCESS]: (state,action) => ({
              ...state,
          loading: false,
-         method: ''
+         method: '',
+         detail : Object.assign({},state.detail,action.args)
      }),
      [LESSON_LIST_REQUEST]: state => ({
              ...state,

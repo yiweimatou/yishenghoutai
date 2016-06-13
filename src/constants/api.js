@@ -2,7 +2,7 @@ export const HOST = 'http://121.41.92.56'
 
 export const USER_API_DOMAIN = `${HOST}:91`
 export const ADMIN_API_DOMAIN = `${HOST}:90`
-export const UPLOAD_DOMAIN = `${HOST}:8001`
+export const UPLOAD_DOMAIN = `${HOST}:99`
 
 /**
  * api codes
@@ -65,7 +65,16 @@ export const AREA_INFO_API = `${USER_API_DOMAIN}/area/info`
 /**
  * upload apis
  */
-export const UPLOAD_YUNBOOK_API = `${UPLOAD_DOMAIN}/yunbook`
-export const UPLOAD_FILE_API = `${UPLOAD_DOMAIN}/file`
+export const UPLOAD_YUNBOOK_API = `${UPLOAD_DOMAIN}/book/img`
+export const UPLOAD_LOGO_API = `${UPLOAD_DOMAIN}/logo`
+export const UPLOAD_AVATAR_API = `${UPLOAD_DOMAIN}/face`
 export const UPLOAD_COVER_API = `${UPLOAD_DOMAIN}/cover`
-export const UPLOAD_PPT_API = `${UPLOAD_DOMAIN}/ppt`
+export const UPLOAD_PPT_API = `${UPLOAD_DOMAIN}/book/ppt`
+/**
+*yunbook apis
+*/
+export const YUNBOOK_GET_API = `${USER_API_DOMAIN}/userbook/get`
+export const YUNBOOK_ADD_API = `${USER_API_DOMAIN}/userbook/add`
+export const YUNBOOK_EDIT_API = `${USER_API_DOMAIN}/userbook/put`
+export const YUNBOOK_LIST_API = `${USER_API_DOMAIN}/userbook/list`
+export const YUNBOOK_INFO_API = `${USER_API_DOMAIN}/userbook/info`
