@@ -32,9 +32,9 @@ const onSubmit = (values,dispatch) => {
                     values.height = data.height
                     values.zoom = data.zoom
                     values.path = data.path
-                    dispatch(addYunbook(values)).then(yid => {
-                        if (yid) {
-                            dispatch(push(`/yunbook/show/${yid}`))
+                    dispatch(addYunbook(values)).then(bid => {
+                        if (bid) {
+                            dispatch(push(`/yunbook/show/${bid}`))
                         }
                     })
                 }else{

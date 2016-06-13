@@ -10,14 +10,20 @@ import {
 	YUNBOOK_LIST_FAILURE,
 	YUNBOOK_EDIT_REQUEST,
 	YUNBOOK_EDIT_SUCCESS,
-	YUNBOOK_EDIT_FAILURE
+	YUNBOOK_EDIT_FAILURE,
+	YUNBOOK_INFO_REQUEST,
+	YUNBOOK_INFO_SUCCESS,
+	YUNBOOK_INFO_FAILURE
 } from 'constants/ActionTypes'
 
 const initialState = {
 	errorMessage:'',
 	loading:false,
 	list:[],
-	detail:null
+	detail:null,
+	total : 0,
+	limit:12,
+	offset:1
 }
 
 const ACTION_HANDLERS = {
@@ -31,6 +37,36 @@ const ACTION_HANDLERS = {
 		errorMessage:''
 	}),
 	[YUNBOOK_ADD_FAILURE] : (state,action) => ({
+		...state,
+		loading:false,
+		errorMessage:action.errorMessage
+	}),
+	[YUNBOOK_LIST_SUCCESS] : (state,action) => ({
+		...state,
+		loading:false,
+		errorMessage:'',
+		list:state.list.concat(action.list)
+	}),
+	[YUNBOOK_LIST_REQUEST]: state => ({
+		...state,
+		loading:true
+	}),
+	[YUNBOOK_LIST_FAILURE] : (state,action) => ({
+		...state,
+		loading:false,
+		errorMessage:action.errorMessage
+	}),
+	[YUNBOOK_INFO_REQUEST] : state => ({
+		...state,
+		loading:true
+	}),
+	[YUNBOOK_INFO_SUCCESS] : (state,action) => ({
+		...state,
+		loading:false,
+		errorMessage:'',
+		total : action.total
+	}),
+	[YUNBOOK_INFO_FAILURE]: (state,action) => ({
 		...state,
 		loading:false,
 		errorMessage:action.errorMessage
