@@ -6,18 +6,27 @@ import { uploadCover } from 'actions/upload'
 import { push } from 'react-router-redux'
 import { getOrganizeInfo, fetchList } from 'actions/organize'
 import { addOrganizeLesson } from 'actions/organizeLesson'
+import { getUser } from 'actions/user'
+import { addLessonTeam,removeLessonTeam } from 'actions/lessonTeam'
 
 const mapStateToProps = state => ({
 	lesson : state.lesson.detail,
     total:state.organize.total,
     limit:state.organize.limit,
     offset:state.organize.offset,
-    organizeList:state.organize.list
+    organizeList:state.organize.list,
+    user:state.user.detail,
+    teamUsers:state.lessonTeam.list
 })
 
 const mapDispatchToProps = dispatch =>({
-    onPageClick:() => {
-
+    removeTeamUser:id => {
+        dispatch( removeLessonTeam(id) )
+    },
+    onPageClick:(oname,offset,limit) => {
+        dispatch( fetchList({
+            limit,offset,oname
+        }))
     },
     applyHandler: (close,oid,lid) => {
         Promise.resolve( dispatch( addOrganizeLesson(oid,lid)) ).then( ok=>{
@@ -37,6 +46,16 @@ const mapDispatchToProps = dispatch =>({
             offset:1,
             oname:title
         }))
+    },
+    inviteHandler : (close,lid,mobile) => {
+        Promise.resolve(dispatch( addLessonTeam(lid,mobile) )).then(ok=>{
+            if( ok ){
+                close()
+            }
+        })
+    },
+    userSearchHandler:mobile => {
+        dispatch( getUser(mobile) )
     },
     editSubmitHandler: (close,values) => {
         let lesson = {

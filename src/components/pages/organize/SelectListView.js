@@ -5,6 +5,7 @@ import {
     TextField,
     RaisedButton
 } from 'material-ui'
+import Pager from '../../Pager'
 
 const styles = {
     div : {
@@ -19,11 +20,13 @@ const styles = {
 class SelectListView extends React.Component {
     searchHandler = () => {
         const title = document.querySelector('#_title').value
-        console.log(title)
         this.props.onSearch(title)
     }
     render() {
-        const { list,applyHandler } = this.props
+        const { 
+            list,applyHandler,
+            offset,limit,onPageClick,total 
+        } = this.props
         return(
             <div>
                 <div style ={ styles.div } >
@@ -68,6 +71,15 @@ class SelectListView extends React.Component {
                         })
                     }
                 </GridList>
+                <Pager 
+                    offset = { offset }
+                    limit = { limit }
+                    onPageClick = { 
+                        (offset,limit) => 
+                        onPageClick(document.querySelector('#_title').value,offset,limit) 
+                    }
+                    total = { total }
+                />
             </div>
         )
     }
@@ -76,6 +88,10 @@ class SelectListView extends React.Component {
 SelectListView.propTypes = {
     list:React.PropTypes.array,
     onSearch:React.PropTypes.func.isRequired,
-    applyHandler:React.PropTypes.func.isRequired
+    applyHandler:React.PropTypes.func.isRequired,
+	offset: React.PropTypes.number.isRequired,
+    total: React.PropTypes.number.isRequired, 
+    limit: React.PropTypes.number.isRequired, 
+    onPageClick: React.PropTypes.func.isRequired
 }
 export default SelectListView

@@ -14,7 +14,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch(push(`/organize/edit/${oid}`))
 		},
 		goToDetail: oid => {
-			dispatch(push(`/organize/detai/${oid}`))
+			dispatch(push(`/organize/detail/${oid}`))
 		}
 	}
 }
