@@ -36,6 +36,8 @@ class DetailView extends React.Comopnent {
     render(){
         return(
             <div>
+                <Paper style = { styles.paper } >
+                </Paper>
             </div>
         )
     }
