@@ -15,7 +15,8 @@ const organizeRoute = store => ({
     },
     childRoutes: [
         require('./list').default(store),
-        require('./edit').default(store)
+        require('./edit').default(store),
+        require('./detailRoute').default( store )
     ]
 })
 

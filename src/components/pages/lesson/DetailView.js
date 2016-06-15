@@ -70,39 +70,38 @@ class DetialView extends React.Component {
 			<div>
 				<Paper style = { styles.paper }>
 					<img src = { lesson.cover } alt = 'cover' width='256' heigt='256' />
-
-						<dl>
-							<dt style = {styles.dt}>课程名</dt>
-							<dd style = {styles.dd}>{lesson.lname}</dd>
-							<dt style = {styles.dt}>课程简介</dt>
-							<dd style = {styles.dd}>{lesson.descript}</dd>
-							<dt style = {styles.dt}>创建时间</dt>
-							<dd style = {styles.dd}>{ new Date(lesson.add_ms*1000).toString()}</dd>
-							<dt style = {styles.dt}>更新时间</dt>
-							<dd style = {styles.dd}>{new Date(lesson.put_ms*1000).toString()}</dd>
-							<dt style = {styles.dt}>浏览量</dt>
-							<dd style = {styles.dd}>{lesson.view_num}</dd>
-							<dt style = {styles.dt}>关注量</dt>
-							<dd style = {styles.dd}>{lesson.focus_num}</dd>
-						</dl>
-						<div style = { styles.div }>
-							<RaisedButton 
-								label ='编辑' 
-								primary = { true }
-								onClick = { this.editOpenHandler }
-							/>
-							<RaisedButton 
-								label ='新建文章' 
-								primary = { true }
-								onClick = { ()=>goToAddSection(lesson.lid) }
-							/>
-							<RaisedButton 
-								label ='申请机构认证' 
-								primary = { true }
-								onClick = { this.applyOpenHandler }
-							/>
-							<RaisedButton label ='邀请成员' primary = { true }/>
-						</div>
+					<dl>
+						<dt style = {styles.dt}>课程名</dt>
+						<dd style = {styles.dd}>{lesson.lname}</dd>
+						<dt style = {styles.dt}>课程简介</dt>
+						<dd style = {styles.dd}>{lesson.descript}</dd>
+						<dt style = {styles.dt}>创建时间</dt>
+						<dd style = {styles.dd}>{ new Date(lesson.add_ms*1000).toString()}</dd>
+						<dt style = {styles.dt}>更新时间</dt>
+						<dd style = {styles.dd}>{new Date(lesson.put_ms*1000).toString()}</dd>
+						<dt style = {styles.dt}>浏览量</dt>
+						<dd style = {styles.dd}>{lesson.view_num}</dd>
+						<dt style = {styles.dt}>关注量</dt>
+						<dd style = {styles.dd}>{lesson.focus_num}</dd>
+					</dl>
+					<div style = { styles.div }>
+						<RaisedButton 
+							label ='编辑' 
+							primary = { true }
+							onClick = { this.editOpenHandler }
+						/>
+						<RaisedButton 
+							label ='新建文章' 
+							primary = { true }
+							onClick = { ()=>goToAddSection(lesson.lid) }
+						/>
+						<RaisedButton 
+							label ='申请机构认证' 
+							primary = { true }
+							onClick = { this.applyOpenHandler }
+						/>
+						<RaisedButton label ='邀请成员' primary = { true }/>
+					</div>
 				</Paper>
 				<Dialog 
 					title = '编辑'
