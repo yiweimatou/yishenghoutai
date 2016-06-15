@@ -13,7 +13,11 @@ import {
 	YUNBOOK_EDIT_FAILURE,
 	YUNBOOK_INFO_REQUEST,
 	YUNBOOK_INFO_SUCCESS,
-	YUNBOOK_INFO_FAILURE
+	YUNBOOK_INFO_FAILURE,
+	MYYUNBOOK_INFO_SUCCESS,
+	MYYUNBOOK_LIST_SUCCESS,
+	SET_YUNBOOK_LIST_OFFSET,
+	SET_MYYUNBOOK_LIST_OFFSET
 } from 'constants/ActionTypes'
 import { 
 	YUNBOOK_GET_API,
@@ -90,6 +94,13 @@ const getYunbookListSuccess = list => {
 	}
 }
 
+const getMyYunbookListSuccess = list => {
+	return {
+		type : MYYUNBOOK_LIST_SUCCESS,
+		list
+	}
+}
+
 const getYunbookListFailure = errorMessage => {
 	return {
 		type : YUNBOOK_LIST_FAILURE,
@@ -107,9 +118,14 @@ export const getYunbookListIfNeeded = args => {
 		if( !args.offset ){
 			args.offset = yunbookState.offset
 		}
+		//uid = 0 all uid = undefined my
 		if ( args.uid === undefined ){
 			args.uid = getState().auth.user.id
+			dispatch( setMyOffset(args.offset) )
+		}else if ( args.uid === 0){
+			dispatch( setOffset(args.offset) )
 		}
+		
 		if (args.limit*args.offset <= yunbookState.list.length){
 			return 
 		} else {
@@ -122,7 +138,10 @@ export const getYunbookListIfNeeded = args => {
 				}
 			}).then ( data => {
 				if( data.code === OK ){
-					dispatch( getYunbookListSuccess(data.list) )
+					dispatch( 
+					args.uid === 0 ? getYunbookListSuccess( data.list )
+					:getMyYunbookListSuccess( data.list ) 
+					)
 				}else{
 					throw new Error(data.msg)
 				}
@@ -143,6 +162,13 @@ const getYunbookInfoRequest = () => {
 const getYunbookInfoSuccess = (total) => {
 	return {
 		type : YUNBOOK_INFO_SUCCESS,
+		total
+	}
+}
+
+const getMyYunbookInfoSuccess = (total) => {
+	return {
+		type : MYYUNBOOK_INFO_SUCCESS,
 		total
 	}
 }
@@ -169,7 +195,10 @@ export const getYunbookInfo = (args) => {
 			}
 		}).then( data=> {
 			if( data.code === OK ){
-				dispatch( getYunbookInfoSuccess(data.count) )
+				dispatch( 
+					args.uid === 0?getYunbookInfoSuccess(data.count)
+					:getMyYunbookInfoSuccess( data.count ) 
+				)
 			}else{
 				throw new Error(data.msg)
 			}
@@ -178,3 +207,13 @@ export const getYunbookInfo = (args) => {
 		})
 	}
 }
+
+const setOffset = offset => ({
+	type:SET_YUNBOOK_LIST_OFFSET,
+	offset
+})
+
+const setMyOffset = offset => ({
+	type:SET_MYYUNBOOK_LIST_OFFSET,
+	offset
+})

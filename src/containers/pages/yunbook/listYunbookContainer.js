@@ -8,12 +8,12 @@ import {
 import { push } from 'react-router-redux'
 
 const mapStateToProps = state => ({
-    offset: state.yunbook.offset,
-    total: state.yunbook.total,
-    limit: state.yunbook.limit,
-    list : state.yunbook.list.filter((item,index) => {
-        return index >= (state.yunbook.offset-1)*state.yunbook.limit
-            && index <= state.yunbook.offset*state.yunbook.limit - 1
+    offset: state.yunbook.myOffset,
+    total: state.yunbook.myTotal,
+    limit: state.yunbook.myLimit,
+    list : state.yunbook.myList.filter((item,index) => {
+        return index >= (state.yunbook.myOffset-1)*state.yunbook.myLimit
+            && index <= state.yunbook.myOffset*state.yunbook.myLimit - 1
     })
 })
 

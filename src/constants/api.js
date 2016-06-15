@@ -78,3 +78,11 @@ export const YUNBOOK_ADD_API = `${USER_API_DOMAIN}/userbook/add`
 export const YUNBOOK_EDIT_API = `${USER_API_DOMAIN}/userbook/put`
 export const YUNBOOK_LIST_API = `${USER_API_DOMAIN}/userbook/list`
 export const YUNBOOK_INFO_API = `${USER_API_DOMAIN}/userbook/info`
+/**
+ * organizelesson apis
+ */
+export const ORGANIZELESSON_INFO_API = `${USER_API_DOMAIN}/organizelesson/info`
+export const ORGANIZELESSON_GET_API = `${USER_API_DOMAIN}/organizelesson/get`
+export const ORGANIZELESSON_LIST_API = `${USER_API_DOMAIN}/organizelesson/list`
+export const ORGANIZELESSON_ADD_API = `${USER_API_DOMAIN}/organizelesson/add`
+export const ORGANIZELESSON_EDIT_API = `${USER_API_DOMAIN}/organizelesson/put`

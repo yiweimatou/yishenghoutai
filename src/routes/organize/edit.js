@@ -17,9 +17,7 @@ const editRoute = store => ({
                         pathname: '/'
                     })
                 } else {
-                    store.dispatch(initialize('editOrganize', organize, [
-                        'oname', 'oid', 'logo', 'descript', 'state'
-                    ]))
+                    store.dispatch(initialize('editOrganize', organize))
                 }
             })
         } else {

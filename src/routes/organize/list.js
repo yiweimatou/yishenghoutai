@@ -1,10 +1,10 @@
-import { fetchList } from 'actions/organize'
+import { fetchMyList } from 'actions/organize'
 import { toastr } from 'react-redux-toastr'
 
 const listRoute = store => ({
     path: 'list',
     onEnter() {
-        store.dispatch(fetchList()).then(() => {
+        store.dispatch(fetchMyList()).then(() => {
             const error = store.getState().organize.errorMessage
             if (error) {
                 toastr.error(error)

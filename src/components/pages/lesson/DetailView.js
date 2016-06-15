@@ -1,6 +1,8 @@
 import React from 'react'
-import { Paper,RaisedButton,Dialog,FlatButton } from 'material-ui'
+import { Paper,RaisedButton,Dialog } from 'material-ui'
 import EditView from './EditView'
+import SelectListView from '../organize/SelectListView'
+import Pager from '../../Pager'
 
 const styles = {
     paper:{
@@ -12,7 +14,7 @@ const styles = {
         display:'flex',
         flexFlow:'row nowrap',
         justifyContent :'space-around',
-        maxWidth :500
+        maxWidth :700
     },
     dl:{
         marginLeft:50
@@ -34,38 +36,41 @@ const styles = {
 }
 class DetialView extends React.Component {
 	state = {
-		editOpen:false
+		editOpen:false,
+		applyOpen:false
 	}
-	editOpenHander = () => {
+	editOpenHandler = () => {
 		this.setState({
 			editOpen:!this.state.editOpen
 		})
 	}
+	applyOpenHandler = () => {
+		this.setState({
+			applyOpen:!this.state.applyOpen
+		})
+	}
 	render () {
 		const {
-			lesson,onChange,editSubmitHandler
+			lesson,
+			onChange,
+			editSubmitHandler,
+			goToAddSection,
+			organizeList,
+			offset,
+			limit,
+			total,
+			onPageClick,
+			onSearch,
+			applyHandler
 		} = this.props
 		if( !lesson ){
 			return (null)
 		}
-		const editActions = [
-			<FlatButton 
-				label="Cancel"
-				primary={true}
-				onTouchTap={this.editOpenHander}
-			/>,
-			<FlatButton 
-				label="Submit" 
-				primary={true} 
-				keyboardFocused={true} 
-				onTouchTap={this.editOpenHander} 
-			/>
-		]
 		return (
 			<div>
 				<Paper style = { styles.paper }>
-					<img src = { lesson.cover } alt = 'cover' width='512' heigt='512' />
-					<div>
+					<img src = { lesson.cover } alt = 'cover' width='256' heigt='256' />
+
 						<dl>
 							<dt style = {styles.dt}>课程名</dt>
 							<dd style = {styles.dd}>{lesson.lname}</dd>
@@ -84,27 +89,54 @@ class DetialView extends React.Component {
 							<RaisedButton 
 								label ='编辑' 
 								primary = { true }
-								onClick = { this.editOpenHander }
+								onClick = { this.editOpenHandler }
 							/>
-							<RaisedButton label ='新建文章' primary = { true }/>
-							<RaisedButton label ='申请机构认证' primary = { true }/>
+							<RaisedButton 
+								label ='新建文章' 
+								primary = { true }
+								onClick = { ()=>goToAddSection(lesson.lid) }
+							/>
+							<RaisedButton 
+								label ='申请机构认证' 
+								primary = { true }
+								onClick = { this.applyOpenHandler }
+							/>
 							<RaisedButton label ='邀请成员' primary = { true }/>
 						</div>
-					</div>
 				</Paper>
 				<Dialog 
 					title = '编辑'
-					modal = { false }
 					open = { this.state.editOpen }
 					autoScrollBodyContent={true}
-					onRequestClose = { this.editOpenHander }
+					onRequestClose = { this.editOpenHandler }
 				>
 					<EditView 
 						initialValues = { lesson } 
 						onChange = { onChange }
 						imageUrl = { lesson.cover }
-						onSubmit = { editSubmitHandler.bind(null,this.editOpenHander) }
+						onSubmit = { editSubmitHandler.bind(null,this.editOpenHandler) }
 					/>
+				</Dialog>
+				<Dialog 
+					title = '申请认证'
+					open = { this.state.applyOpen }
+					onRequestClose = { this.applyOpenHandler }
+				>
+					<div style = {{width:'99%'}}>
+						<SelectListView
+							list = { organizeList }
+							onSearch = { onSearch }
+							applyHandler = { 
+								oid => applyHandler(this.applyOpenHandler,oid,lesson.lid) }
+						>
+						</SelectListView>
+						<Pager 
+							offset = { offset }
+							limit = { limit }
+							onPageClick = { onPageClick }
+							total = { total }
+						/>
+					</div>
 				</Dialog>
 			</div>
 		)
@@ -114,7 +146,15 @@ class DetialView extends React.Component {
 DetialView.propTypes = {
 	lesson:React.PropTypes.object,
 	onChange :  React.PropTypes.func.isRequired,
-	editSubmitHandler : React.PropTypes.func.isRequired
+	editSubmitHandler : React.PropTypes.func.isRequired,
+	goToAddSection : React.PropTypes.func.isRequired,
+	organizeList:React.PropTypes.array,
+	offset: React.PropTypes.number.isRequired,
+    total: React.PropTypes.number.isRequired, 
+    limit: React.PropTypes.number.isRequired, 
+    onPageClick: React.PropTypes.func.isRequired,
+	onSearch : React.PropTypes.func.isRequired,
+	applyHandler:React.PropTypes.func.isRequired
 }
 
 export default DetialView

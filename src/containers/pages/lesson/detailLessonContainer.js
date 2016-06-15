@@ -3,12 +3,41 @@ import DetailView from 'pages/lesson/DetailView'
 import { change } from 'redux-form'
 import { editLesson } from 'actions/lesson'
 import { uploadCover } from 'actions/upload'
+import { push } from 'react-router-redux'
+import { getOrganizeInfo, fetchList } from 'actions/organize'
+import { addOrganizeLesson } from 'actions/organizeLesson'
 
 const mapStateToProps = state => ({
-	lesson : state.lesson.detail
+	lesson : state.lesson.detail,
+    total:state.organize.total,
+    limit:state.organize.limit,
+    offset:state.organize.offset,
+    organizeList:state.organize.list
 })
 
 const mapDispatchToProps = dispatch =>({
+    onPageClick:() => {
+
+    },
+    applyHandler: (close,oid,lid) => {
+        Promise.resolve( dispatch( addOrganizeLesson(oid,lid)) ).then( ok=>{
+            if(ok){
+                close()
+            }
+        })
+    },
+    onSearch : ( title ) => {
+        dispatch( getOrganizeInfo({
+            limit:4,
+            offset:1,
+            oname:title
+        }))
+        dispatch( fetchList({
+            limit:4,
+            offset:1,
+            oname:title
+        }))
+    },
     editSubmitHandler: (close,values) => {
         let lesson = {
             cover: values.cover,
@@ -36,7 +65,10 @@ const mapDispatchToProps = dispatch =>({
     },
 	onChange : file => {
 		dispatch(change('editLesson','file',file))
-	}
+	},
+    goToAddSection : lid => {
+        dispatch(push(`/section/add/${lid}`))
+    }
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)( DetailView )

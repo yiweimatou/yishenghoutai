@@ -1,4 +1,6 @@
 import { getLessonIfNeeded } from 'actions/lesson'
+import { injectReducer } from '../../store/reducers'
+import { fetchList,getOrganizeInfo } from 'actions/organize'
 
 const detailRoute = store => ({
 	path : 'detail/:id',
@@ -8,7 +10,19 @@ const detailRoute = store => ({
 			return replace({
 				pathname:'/'
 			})
-		} 
+		}
+		if (store.asyncReducers['organize'] === undefined) {
+            const reducer = require('reducers/organize').default
+            injectReducer(store, {
+                key: 'organize',
+                reducer
+            })
+        } 
+		store.dispatch( getOrganizeInfo() )
+		store.dispatch( fetchList({
+			limit:4,
+			offset:1
+		}) )
 		store.dispatch(getLessonIfNeeded({
 			lid
 		})).then( ()=> {
@@ -17,9 +31,6 @@ const detailRoute = store => ({
 				replace({
 					pathname:'/'
 				})
-				return Promise.reject()
-			}else {
-				return Promise.resolve()
 			}
 		})
 	},

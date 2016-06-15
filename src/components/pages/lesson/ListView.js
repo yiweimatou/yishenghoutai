@@ -2,17 +2,6 @@ import React from 'react'
 import { GridList, GridTile } from 'material-ui/GridList'
 
 const styles = {
-	root : {
-		display : 'flex',
-		flexFlow : 'row wrap',
-		justifyConent : 'space-between'
-	},
-	gridList : {
-		width : '100%',
-		height : '100%',
-		overflowY: 'auto',
-		overflowX: 'auto'
-	},
 	img :{
 		cursor: 'pointer'
 	}
@@ -21,8 +10,7 @@ const styles = {
 const ListView = ( props ) => {
 	const { list,onClick } = props
 	return (
-		<div style = { styles.root }>
-			<GridList style = { styles.gridList } 
+			<GridList
 				padding = { 60 }
 				cols = { 4 }
 			>
@@ -42,7 +30,6 @@ const ListView = ( props ) => {
 					})
 				}
 			</GridList>
-		</div>
 	)
 }
 

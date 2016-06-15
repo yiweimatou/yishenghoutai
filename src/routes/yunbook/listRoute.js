@@ -7,8 +7,8 @@ const listRoute = store => ({
         if( yunbookState.list.length === 0 ){
             store.dispatch( getYunbookInfo( { } ) )
             store.dispatch( getYunbookListIfNeeded({
-                offset:yunbookState.offset,
-                limit:yunbookState.limit
+                offset:yunbookState.myOffset,
+                limit:yunbookState.myLimit
             }) )
         }
     },

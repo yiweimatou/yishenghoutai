@@ -42,17 +42,6 @@ class AppNavDrawer extends React.Component{
 							]}		
 						/>):null
 					}
-					{ 
-						(doctor || doctorAssistant) ?
-						(<ListItem 
-								primaryText="文章管理" 
-								primaryTogglesNestedList = {true}
-								nestedItems = {[
-									<ListItem primaryText = "新增" value = "/section/add" />,
-									<ListItem primaryText = "列表" value = "/section/list" />
-								]}			
-						/>):null
-					}
 					<ListItem 
 						primaryText="云板书管理" 
 						primaryTogglesNestedList = {true}

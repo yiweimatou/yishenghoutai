@@ -13,17 +13,25 @@ import {
 	YUNBOOK_EDIT_FAILURE,
 	YUNBOOK_INFO_REQUEST,
 	YUNBOOK_INFO_SUCCESS,
-	YUNBOOK_INFO_FAILURE
+	YUNBOOK_INFO_FAILURE,
+	MYYUNBOOK_LIST_SUCCESS,
+	MYYUNBOOK_INFO_SUCCESS,
+	SET_YUNBOOK_LIST_OFFSET,
+	SET_MYYUNBOOK_LIST_OFFSET
 } from 'constants/ActionTypes'
 
 const initialState = {
 	errorMessage:'',
 	loading:false,
 	list:[],
+	myList:[],
 	detail:null,
+	myTotal:0,
 	total : 0,
-	limit:12,
-	offset:1
+	limit:8,
+	myLimit:8,
+	offset:1,
+	myOffset:1
 }
 
 const ACTION_HANDLERS = {
@@ -47,6 +55,12 @@ const ACTION_HANDLERS = {
 		errorMessage:'',
 		list:state.list.concat(action.list)
 	}),
+	[MYYUNBOOK_LIST_SUCCESS] : (state,action) => ({
+		...state,
+		loading:false,
+		errorMessage:'',
+		myList:state.myList.concat(action.list)
+	}),
 	[YUNBOOK_LIST_REQUEST]: state => ({
 		...state,
 		loading:true
@@ -66,10 +80,24 @@ const ACTION_HANDLERS = {
 		errorMessage:'',
 		total : action.total
 	}),
+	[MYYUNBOOK_INFO_SUCCESS] : (state,action) => ({
+		...state,
+		loading:false,
+		errorMessage:'',
+		myTotal : action.total
+	}),
 	[YUNBOOK_INFO_FAILURE]: (state,action) => ({
 		...state,
 		loading:false,
 		errorMessage:action.errorMessage
+	}),
+	[SET_YUNBOOK_LIST_OFFSET]:(state,action) => ({
+		...state,
+		offset:action.offset
+	}),
+	[SET_MYYUNBOOK_LIST_OFFSET]:(state,action) => ({
+		...state,
+		myOffset:action.offset
 	})
 }
 

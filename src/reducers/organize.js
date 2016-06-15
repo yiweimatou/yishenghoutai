@@ -1,23 +1,38 @@
 import {
     ORGANIZE_LIST_REQUEST,
     ORGANIZE_LIST_SUCCESS,
+    ORGANIZE_MYLIST_SUCCESS,
     ORGANIZE_LIST_FAILURE,
     ORGANIZE_EDIT_REQUEST,
     ORGANIZE_EDIT_SUCCESS,
     ORGANIZE_EDIT_FAILURE,
     ORGANIZE_GET_SUCCESS,
     ORGANIZE_GET_FAILURE,
-    ORGANIZE_GET_REQUEST
+    ORGANIZE_GET_REQUEST,
+    GET_ORGANIZE_INFO_SUCCESS,
+    SET_ORGANIZE_LIST_OFFSET
 } from 'constants/ActionTypes'
 
 const initialState = {
     list: [],
     loading: false,
     errormessage: '',
-    detail:null
+    detail:null,
+    myList : [],
+    total:0,
+    limit:4,
+    offset:1
 }
 
 const ACTION_HANDLERS = {
+    [SET_ORGANIZE_LIST_OFFSET] : (state,action) => ({
+        ...state,
+        offset:action.offset
+    }),
+    [GET_ORGANIZE_INFO_SUCCESS] : (state,action) => ({
+        ...state,
+        total : action.total 
+    }),
     [ORGANIZE_EDIT_REQUEST] : state => ({
         ...state,
         loading:true
@@ -54,6 +69,12 @@ const ACTION_HANDLERS = {
         ...state,
         loading: false,
         list: action.list,
+        errormessage: ''
+    }),
+    [ORGANIZE_MYLIST_SUCCESS]: (state, action) => ({
+        ...state,
+        loading: false,
+        myList: action.list,
         errormessage: ''
     }),
     [ORGANIZE_LIST_FAILURE]: (state, action) => ({

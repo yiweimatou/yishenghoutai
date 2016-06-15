@@ -112,7 +112,7 @@ class AddView extends React.Component {
                         floatingLabelText = '课程简介'
                         component = { TextField }
                         multiLine = { true }
-                        rows = { 2 }
+                        rows = { 3 }
                         style = { styles.item }
                 />
                 <div style = { styles.submit } >

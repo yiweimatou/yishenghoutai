@@ -3,6 +3,7 @@ import {
     ORGANIZE_GET_API,
     ORGANIZE_EDIT_API,
     ORGANIZE_LIST_API,
+    ORGANIZE_INFO_API,
     OK
 } from 'constants/api'
 import { object2string } from '../utils/convert'
@@ -14,10 +15,41 @@ import {
     ORGANIZE_EDIT_FAILURE,
     ORGANIZE_EDIT_REQUEST,
     ORGANIZE_GET_SUCCESS,
-    ORGANIZE_GET_FAILURE,
-    ORGANIZE_GET_REQUEST 
+    GET_ORGANIZE_INFO_SUCCESS,
+    ORGANIZE_MYLIST_SUCCESS,
+    SET_ORGANIZE_LIST_OFFSET
 } from 'constants/ActionTypes'
 import { toastr } from 'react-redux-toastr'
+
+const setOrganizeListOffset = offset => ({
+    type:SET_ORGANIZE_LIST_OFFSET,
+    offset
+})
+
+const getOrganizeInfoSuccess = total => ({
+    type : GET_ORGANIZE_INFO_SUCCESS,
+    total
+})
+
+export const getOrganizeInfo = args =>{
+    return dispatch => {
+        return fetch(`${ORGANIZE_INFO_API}?${object2string(args)}`).then( response =>{
+            if( response.ok ){
+                return response.json()
+            }else {
+                throw new Error( response.statusText )
+            }
+        }).then( data => {
+            if ( data.code === OK ){
+                dispatch( getOrganizeInfoSuccess(data.count) )
+            }else {
+                throw new Error( data.msg )
+            }
+        }).catch( error => {
+            toastr.error( error.message )
+        })
+    }
+}
 
 export const getOrganizeSuccess = organize => ({
     type:ORGANIZE_GET_SUCCESS,
@@ -118,12 +150,17 @@ export const fetchListRequest = () => {
         type:ORGANIZE_LIST_REQUEST
     }
 }
-export const fetchListSuccess = list => {
+export const fetchMyListSuccess = list => {
     return {
-        type:ORGANIZE_LIST_SUCCESS,
+        type:ORGANIZE_MYLIST_SUCCESS,
         list
     }
 }
+
+export const fetchListSuccess = list => ({
+    type:ORGANIZE_LIST_SUCCESS,
+    list
+})
 
 export const fetchListFailure = message => {
     return {
@@ -132,11 +169,10 @@ export const fetchListFailure = message => {
     }
 }
 
-export const fetchList = args => {
+export const fetchMyList = () => {
     return (dispatch,getState) => {
         dispatch( fetchListRequest() )
-        const user =  getState().auth.user 
-        return fetch(`${ORGANIZE_LIST_API}?key=${user.id}&token=${user.token}&uid=${user.id}${object2string(args)}`)
+        return fetch(`${ORGANIZE_LIST_API}?&uid=${getState().auth.user.id}`)
         .then(response => {
             if(response.ok) {
                 return response.json()
@@ -145,7 +181,7 @@ export const fetchList = args => {
             }
         }).then( data => {
             if( data.code  === OK ){
-                dispatch( fetchListSuccess( data.list ) )
+                dispatch( fetchMyListSuccess( data.list ) )
             }else {
                 throw new Error( data.msg || '获取列表失败' )
             }
@@ -156,25 +192,25 @@ export const fetchList = args => {
     }
 }
 
-// export const add = organize => {
-//     return (dispatch, getState) => {
-//         const user = getState().auth.user
-//         return fetch(ORGANIZE_ADD_API, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/x-www-form-urlencoded'
-//             },
-//             body: `${object2string(organize)}&&key=${user.id}&&token=${user.token}`
-//         }).then(response => {
-//             if (response.ok) {
-//                 return response.json()
-//             } else {
-//                 throw new Error(response.statusText)
-//             }
-//         }).then(data => data).catch(error => {
-//             return {
-//                 msg: error.message
-//             }
-//         })
-//     }
-// }
+export const fetchList = args => {
+    return dispatch => {
+        dispatch( fetchListRequest() )
+        return fetch(`${ORGANIZE_LIST_API}?${object2string(args)}`).then( response => {
+            if( response.ok ){
+                return response.json()
+            }else {
+                throw new Error( response.statusText ) 
+            }
+        }).then( data => {
+            if( data.code === OK ){
+                dispatch( setOrganizeListOffset(args.offset) )
+                dispatch( fetchListSuccess(data.list) )
+            } else {
+                throw new Error(data.msg)
+            }
+        }).catch( error => {
+            dispatch( fetchListFailure( error.message ) )
+            toastr.error( error.message )
+        })
+    }
+}
