@@ -143,7 +143,7 @@ class DetialView extends React.Component {
 				</Paper>
 				<Paper style = { styles.team } >
 					{teamUsers.map(user=>{
-						return <UserView key={user.uid} user={user} />
+						return <UserView user={user} />
 					})}
 				</Paper>
 				<Dialog 
@@ -199,7 +199,7 @@ class DetialView extends React.Component {
 						teamUsers.map(user => {
 							return(
 								<div style ={ styles.teamManage }>
-									<UserView key={user.id} user={user} />
+									<UserView user={user} />
 									{user.admin === 1 ? null:
 									<div>
 										<FloatingActionButton

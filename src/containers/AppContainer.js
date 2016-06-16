@@ -23,7 +23,7 @@ class AppContainer extends React.Component {
             onUpdate = { () => window.scrollTo(0, 0) }
            />
            <ReduxToastr
-            timeOut = { 4000 }
+            timeOut = { 3000 }
           /> 
         </div>
       </Provider>

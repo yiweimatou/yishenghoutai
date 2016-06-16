@@ -1,14 +1,7 @@
 import React from 'react'
-import { 
-    Paper, 
-    Table, 
-    TableBody, 
-    TableHeader, 
-    TableHeaderColumn, 
-    TableRow, 
-    TableRowColumn, 
-    FlatButton
-} from 'material-ui'
+import { Paper } from 'material-ui'
+import ListView from '../organizeLesson/ListView'
+import SListView from '../organizeLesson/SListView'
 
 const styles = {
     paper:{
@@ -44,30 +37,9 @@ const styles = {
     }
 }
 class DetailView extends React.Component {
-    state = {
-        id:-1
-    }
-    rowSelection = (index) => {
-        if(index.length === 0 && this.state.id > -1){
-            this.state = {
-                id:-1
-            }
-        }
-        else{
-            this.state = {
-                id:this.props.list[index[0]].id
-            }
-        }
-    }
-    handleAgree = () =>{
-        this.props.editHandler(this.state.id,4)
-    }
-    handleRefuse = () => {
-        this.props.editHandler(this.state.id,3)
-    }
     render(){
         const {
-            organize,list
+            organize,list,slist,editHandler
         } = this.props
         if( !organize ){
             return (null)
@@ -91,52 +63,10 @@ class DetailView extends React.Component {
 					</dl>
                 </Paper>
                 <Paper style = {styles.table}>
-                    <Table
-                        fixedHeader={ false }
-                        selectable={ true }
-                        multiSelectable={ false }
-                        onRowSelection = { this.rowSelection }
-                    >
-                        <TableHeader
-                        >   
-                            <TableRow style={styles.row}>
-                                <TableHeaderColumn colSpan="2">
-                                    <div style={{textAlign:'center'}}>
-                                        <span>课程认证申请</span>
-                                    </div>
-                                    <div style={{float:'right'}}>
-                                        <FlatButton onTouchTap = { this.handleAgree }
-                                            label = '认证通过'
-                                            primary = { true }
-                                        /> 
-                                        <FlatButton onClick = { this.handleRefuse }
-                                            label = '认证拒绝'
-                                            secondary = { true }
-                                        />                                                                  
-                                    </div>
-                                </TableHeaderColumn>
-                            </TableRow>
-                            <TableRow>
-                                <TableHeaderColumn tooltip="课程ID">ID</TableHeaderColumn>
-                                <TableHeaderColumn tooltip="课程名称">课程名称</TableHeaderColumn>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody
-                            displayRowCheckbox={true}
-                            deselectOnClickaway={false}
-                            showRowHover={true}
-                            stripedRows={false}
-                        >
-                            {
-                                list.map( row => (
-                                    <TableRow key={row.oid} selected={row.selected}>
-                                        <TableRowColumn>{row.id}</TableRowColumn>
-                                        <TableRowColumn>{row.lname}</TableRowColumn>
-                                    </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </Table>
+                    <ListView list ={ list } editHandler ={ editHandler }/>
+                </Paper>
+                <Paper style = { styles.table } >
+                    <SListView list = { slist } />
                 </Paper>
             </div>
         )
@@ -146,6 +76,7 @@ class DetailView extends React.Component {
 DetailView.propTypes = {
     organize:React.PropTypes.object,
     list:React.PropTypes.array,
+    slist:React.PropTypes.array,
     editHandler:React.PropTypes.func.isRequired
 }
 

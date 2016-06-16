@@ -9,6 +9,7 @@ import organizeRoute from './organize'
 import lessonRoute from './lesson'
 import yunbookRoute from './yunbook'
 import sectionRoute from './section'
+import teamRoute from './lessonTeam'
 
 const routes = store => ({
     component: App,
@@ -35,6 +36,7 @@ const routes = store => ({
                 lessonRoute( store ),
                 yunbookRoute( store ),
                 sectionRoute( store ),
+                teamRoute ( store ),
                 {
                     path: '*',
                     component: require('../components/pages/PageNotFound').default

@@ -2,10 +2,9 @@ import {
     GET_LESSONTEAM_LIST_REQUEST,
     GET_LESSONTEAM_LIST_SUCCESS,
     GET_LESSONTEAM_LIST_FAILURE,
-    GET_TEAMINVITED_LIST_REQUEST,
-    GET_TEAMINVITED_LIST_SUCCESS,
-    GET_TEAMINVITED_LIST_FAILURE,
-    REMOVE_LESSONTEAM_SUCCESS
+    REMOVE_LESSONTEAM_SUCCESS,
+    EDIT_LESSONTEAM_SUCCESS,
+    GET_LESSONTEAM_INVITED_LIST_SUCCESS
 } from '../constants/ActionTypes'
 
 const initialState = {
@@ -15,6 +14,14 @@ const initialState = {
 }
 
 const ACTION_HANDLER = {
+    [GET_LESSONTEAM_INVITED_LIST_SUCCESS]:(state,action)=>({
+        ...state,
+        invitedList:action.list
+    }),
+    [EDIT_LESSONTEAM_SUCCESS]:(state,action) => ({
+        ...state,
+        invitedList:state.invitedList.filter(item=>item.id!==action.id)
+    }),
     [GET_LESSONTEAM_LIST_REQUEST]: state => ({
         ...state,
         loading: true

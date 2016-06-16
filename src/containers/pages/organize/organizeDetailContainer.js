@@ -5,7 +5,8 @@ import { toastr } from 'react-redux-toastr'
 
 const mapStateToProps = state => ({
     organize:state.organize.detail,
-    list : state.organizeLesson.list
+    list : state.organizeLesson.list,
+    slist : state.organizeLesson.slist
 })
 
 const mapDispatchToProps = dispatch => ({

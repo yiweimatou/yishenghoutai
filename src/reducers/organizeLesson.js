@@ -4,17 +4,24 @@ import {
     ORGANIZELESSON_LIST_FAILURE,
     ORGANIZELESSON_EDIT_REQUEST,
     ORGANIZELESSON_EDIT_SUCCESS,
-    ORGANIZELESSON_EDIT_FAILURE
+    ORGANIZELESSON_EDIT_FAILURE,
+    ORGANIZELESSON_SLIST_SUCCESS
 } from 'constants/ActionTypes'
 
 const initialState = {
     loading:false,
     list :[],
+    slist:[],
     offset:1,
     limit:5
 }
 
 const ACTION_HANDLER = {
+    [ORGANIZELESSON_SLIST_SUCCESS] : (state,action) => ({
+        ...state,
+        loading:false,
+        slist:action.list
+    }),
     [ORGANIZELESSON_EDIT_REQUEST] : state => ({
         ...state,
         loading:true

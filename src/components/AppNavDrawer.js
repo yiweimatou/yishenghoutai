@@ -50,6 +50,10 @@ class AppNavDrawer extends React.Component{
 							<ListItem primaryText = "列表" value = "/yunbook/list" />
 						]}			
 					/>
+					<ListItem
+						primaryText = '我的团队邀请'
+						value = '/teaminvited/list' 
+					/>
 					<ListItem 
 						primaryText="个人设置" 
 						primaryTogglesNestedList = {true}

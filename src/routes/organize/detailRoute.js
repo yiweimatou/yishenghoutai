@@ -26,6 +26,9 @@ const detailRoute = store => ({
         store.dispatch( getOrganizeLessonListIfNeeded({
             oid,limit:20,offset:1,cet:1
         }))
+        store.dispatch( getOrganizeLessonListIfNeeded({
+            oid,limit:20,offset:1,cet:4
+        }))
     },
     getComponent(nextState,cb){
         require.ensure([], require => {

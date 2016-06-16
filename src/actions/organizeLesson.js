@@ -4,7 +4,8 @@ import {
     ORGANIZELESSON_LIST_FAILURE,
     ORGANIZELESSON_EDIT_REQUEST,
     ORGANIZELESSON_EDIT_SUCCESS,
-    ORGANIZELESSON_EDIT_FAILURE
+    ORGANIZELESSON_EDIT_FAILURE,
+    ORGANIZELESSON_SLIST_SUCCESS
 } from '../constants/ActionTypes'
 import {
     OK,
@@ -68,6 +69,11 @@ const getOrganizeLessonListSuccess = (list) => ({
     list
 })
 
+const getOrganizeLessonSListSuccess = list => ({
+    type:ORGANIZELESSON_SLIST_SUCCESS,
+    list
+})
+
 const getOrganizeLessonListFailure = () => ({
     type:ORGANIZELESSON_LIST_FAILURE
 })
@@ -83,7 +89,11 @@ export const getOrganizeLessonListIfNeeded = args => {
             }
         }).then( data => {
             if( data.code === OK ){
-                dispatch( getOrganizeLessonListSuccess(data.list) )
+                if(args.cet ===1){ 
+                    dispatch( getOrganizeLessonListSuccess(data.list) )
+                }else if( args.cet === 4){
+                    dispatch( getOrganizeLessonSListSuccess(data.list) )
+                }
             }else{
                 throw new Error( data.msg )
             }
