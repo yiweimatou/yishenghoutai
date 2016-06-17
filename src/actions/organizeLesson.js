@@ -5,7 +5,8 @@ import {
     ORGANIZELESSON_EDIT_REQUEST,
     ORGANIZELESSON_EDIT_SUCCESS,
     ORGANIZELESSON_EDIT_FAILURE,
-    ORGANIZELESSON_SLIST_SUCCESS
+    ORGANIZELESSON_SLIST_SUCCESS,
+    GET_PASS_ORGANIZELIST_SUCCESS
 } from '../constants/ActionTypes'
 import {
     OK,
@@ -60,7 +61,7 @@ export const editOrganizeLesson = args => {
     }
 }
 
-const getOrganizeLessonListRequest = () => ({
+export const getOrganizeLessonListRequest = () => ({
     type:ORGANIZELESSON_LIST_REQUEST
 })
 
@@ -74,13 +75,12 @@ const getOrganizeLessonSListSuccess = list => ({
     list
 })
 
-const getOrganizeLessonListFailure = () => ({
+export const getOrganizeLessonListFailure = () => ({
     type:ORGANIZELESSON_LIST_FAILURE
 })
 
 export const getOrganizeLessonListIfNeeded = args => {
     return (dispatch) => {
-        dispatch( getOrganizeLessonListRequest() )
         return fetch(`${ORGANIZELESSON_LIST_API}?${object2string(args)}`).then( response=> {
             if( response.ok){
                 return response.json()
@@ -89,20 +89,29 @@ export const getOrganizeLessonListIfNeeded = args => {
             }
         }).then( data => {
             if( data.code === OK ){
-                if(args.cet ===1){ 
-                    dispatch( getOrganizeLessonListSuccess(data.list) )
-                }else if( args.cet === 4){
-                    dispatch( getOrganizeLessonSListSuccess(data.list) )
+                if( args.lid ){
+                    dispatch( getPassOrganizeListSuccess(data.list) )
+                }else{
+                    if(args.cet ===1){ 
+                        dispatch( getOrganizeLessonListSuccess(data.list) )
+                    }else if( args.cet === 4){
+                        dispatch( getOrganizeLessonSListSuccess(data.list) )
+                    }
                 }
+                
             }else{
                 throw new Error( data.msg )
             }
         }).catch( error => {
             toastr.error(error.message)
-            dispatch( getOrganizeLessonListFailure() )
         })
     }
 }
+
+export const getPassOrganizeListSuccess = list => ({
+    type:GET_PASS_ORGANIZELIST_SUCCESS,
+    list
+})
 
 export const addOrganizeLesson = (oid,lid) => {
     return ( dispatch,getState ) => {

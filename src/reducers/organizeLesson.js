@@ -5,18 +5,24 @@ import {
     ORGANIZELESSON_EDIT_REQUEST,
     ORGANIZELESSON_EDIT_SUCCESS,
     ORGANIZELESSON_EDIT_FAILURE,
-    ORGANIZELESSON_SLIST_SUCCESS
+    ORGANIZELESSON_SLIST_SUCCESS,
+    GET_PASS_ORGANIZELIST_SUCCESS
 } from 'constants/ActionTypes'
 
 const initialState = {
     loading:false,
-    list :[],
-    slist:[],
+    list :[],//所有记录
+    slist:[],//机构底下的课程
+    plist:[],//课程认证过的机构
     offset:1,
     limit:5
 }
 
 const ACTION_HANDLER = {
+    [GET_PASS_ORGANIZELIST_SUCCESS]:(state,action) => ({
+        ...state,
+        plist:action.list
+    }),
     [ORGANIZELESSON_SLIST_SUCCESS] : (state,action) => ({
         ...state,
         loading:false,

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { RaisedButton,MenuItem,SelectField as Select } from 'material-ui'
+import { RaisedButton,MenuItem} from 'material-ui'
 import TextField from '../../ReduxForm/TextField'
 import SelectField from '../../ReduxForm/SelectField'
 import ImageUpload from '../../ImageUpload'
+import SectionAreaSelect from '../../SectionAreaSelect'
 
 
 const styles = {
@@ -30,20 +31,7 @@ const styles = {
         marginTop:30
     }
 }
-const createMenuItems = areas => {
-    const items = []
-    areas.forEach((area) => {
-        items.push(<MenuItem value = { area.aid } key = {area.aid} primaryText = {area.title} />)
-    })
-    return items
-}
 class AddView extends React.Component {
-	state = {
-        select1:0,
-        select2:0,
-        items5 : createMenuItems(this.props.areas5),
-        items6 : createMenuItems(this.props.areas6)
-    }
     render() {
         const {
             handleSubmit, 
@@ -52,26 +40,8 @@ class AddView extends React.Component {
             reset, 
             changeHandler,
             onChange,
-            areas5,areas6,areas4
+            areas5,areas6,areas4,areas7
         } = this.props
-        const items4 = createMenuItems(areas4)
-        let items5 = createMenuItems(areas5)
-        let items6 = createMenuItems(areas6)
-        let handleChange = (zoom,e,index, value) => {
-            changeHandler(value,zoom).then(()=>{
-                if(zoom === 5){
-                    this.setState({
-                        select1 : value
-                    })
-                    items5 = createMenuItems(areas5)
-                }else if (zoom === 6){
-                    this.setState({
-                        select2:value
-                    })
-                    items6 = createMenuItems(areas6)
-                }
-            })
-        }
         return (
             <form onSubmit = { handleSubmit } style = { styles.form } >
                 <ImageUpload onChange = { onChange } />
@@ -83,31 +53,28 @@ class AddView extends React.Component {
                     component = {TextField}
                     style = { styles.item }
                 />
-                <div style = { styles.selectDiv }>
-                    <Select
-                        hintText = '云板书分类'
-                        floatingLabelText = '云板书分类'
-                        value = { this.state.select1 }
-                        onChange = { handleChange.bind(null,5) }
-                    >
-                        { items4 }
-                    </Select>
-                    <Select
-                        hintText = '云板书名称'
-                        floatingLabelText = '云板书分类'
-                        value = { this.state.select2 }
-                        onChange = { handleChange.bind(null, 6) }
-                     > 
-                        { items5 } 
-                    </Select>
-                    <Field 
-                        floatingLabelText = '云板书分类'
-                        hintText = '云板书名称'
-                        name = 'aid'
-                        component = { SelectField }
-                    >
-                        { items6 }
-                    </Field>
+                <Field  
+                    name = 'status' 
+                    type = 'text'
+                    hintText = '云板书状态'
+                    floatingLabelText = '云板书状态'
+                    component = {SelectField}
+                    style = { styles.item }
+                >
+                    <MenuItem
+                        primaryText = '仅自己可见'
+                        value = { 1 } 
+                    />
+                    <MenuItem primaryText = '所有人可见' value={2}/>
+                </Field>
+                <div style = { styles.item }>
+                    <SectionAreaSelect
+                        areas4 = { areas4 }
+                        areas5 = { areas5 }
+                        areas6 = { areas6 }
+                        areas7 = { areas7 }
+                        changeHandler = {changeHandler}
+                    />      
                 </div>
                 <Field name = 'descript'
                         hintText = '云板书简介'
@@ -144,7 +111,8 @@ AddView.propTypes = {
     areas4:React.PropTypes.array.isRequired,
     areas5:React.PropTypes.array.isRequired,
     areas6:React.PropTypes.array.isRequired,
-    changeHandler:React.PropTypes.func.isRequired
+    changeHandler:React.PropTypes.func.isRequired,
+    areas7:React.PropTypes.array.isRequired
 }
 
 export default AddView

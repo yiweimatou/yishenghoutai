@@ -1,10 +1,13 @@
 import React from 'react'
-import { Paper,RaisedButton,Dialog,FloatingActionButton } from 'material-ui'
+import { Paper,RaisedButton,Dialog,FloatingActionButton,Divider } from 'material-ui'
 import { ContentRemove } from 'material-ui/svg-icons'
 import EditView from './EditView'
 import SelectListView from '../organize/SelectListView'
 import SelectView from '../user/SelectView'
 import UserView from '../../UserView'
+import OrganizeView from '../../OrganizeView'
+import SectionView from '../../SectionView'
+import Pager from '../../Pager'
 
 const styles = {
     paper:{
@@ -12,9 +15,12 @@ const styles = {
         justifyContent :'space-around'
     },
 	team:{
-		display:'flex',
 		marginTop:30,
 		padding:30
+	},
+	flex:{
+		display:'flex',
+		marginTop:10
 	},
 	teamManage:{
 		display:'flex',
@@ -24,7 +30,7 @@ const styles = {
         display:'flex',
         flexFlow:'row nowrap',
         justifyContent :'space-around',
-		width :700
+		width :550
     },
     dl:{
         marginLeft:50
@@ -73,6 +79,7 @@ class DetialView extends React.Component {
 	}
 	render () {
 		const {
+			section,
 			lesson,
 			onChange,
 			editSubmitHandler,
@@ -88,7 +95,9 @@ class DetialView extends React.Component {
 			userSearchHandler,
 			inviteHandler,
 			teamUsers,
-			removeTeamUser
+			removeTeamUser,
+			organizes,
+			sectionPagerHandler
 		} = this.props
 		if( !lesson ){
 			return (null)
@@ -142,9 +151,41 @@ class DetialView extends React.Component {
 					</div>
 				</Paper>
 				<Paper style = { styles.team } >
-					{teamUsers.map(user=>{
-						return <UserView key={user.id} user={user} />
-					})}
+					<h2>课程团队</h2>
+					<Divider />
+					<div style = { styles.flex }>
+					{
+						teamUsers.map(user=>{
+							return <UserView key={user.id} user={user} />
+						})
+					}
+					</div>
+				</Paper>
+				<Paper style = { styles.team }>
+					<h2>认证过的机构</h2>
+					<Divider />
+					<div style = { styles.flex }>
+					{
+						organizes.map(organize=>{
+							return <OrganizeView key ={organize.id} organize={organize}/>
+						})
+					}
+					</div>
+				</Paper>
+				<Paper style = { styles.team }>
+					<h2>文章列表</h2>
+					<Divider />
+					<div style = { styles.flex }>
+					{
+						section.list.map( section=><SectionView section={section} key={section.sid}/>)
+					}
+					</div>
+					<Pager 
+						limit={section.limit} 
+						offset={section.offset} 
+						total = {section.total}
+						onPageClick={ ()=>sectionPagerHandler(offset,limit,lesson.lid) }
+					/>
 				</Paper>
 				<Dialog 
 					title = '编辑'
@@ -163,6 +204,7 @@ class DetialView extends React.Component {
 					title = '申请认证'
 					open = { this.state.applyOpen }
 					onRequestClose = { this.applyOpenHandler }
+					autoScrollBodyContent={true}
 				>
 					<div style = {{width:'99%'}}>
 						<SelectListView
@@ -181,6 +223,7 @@ class DetialView extends React.Component {
 					title = '邀请加入团队'
 					open = { this.state.inviteOpen }
 					onRequestClose = { this.inviteOpenHandler }
+					autoScrollBodyContent={true}
 				>
 					<SelectView
 						userSearchHandler = { userSearchHandler }
@@ -235,7 +278,10 @@ DetialView.propTypes = {
 	userSearchHandler:React.PropTypes.func.isRequired,
 	inviteHandler:React.PropTypes.func.isRequired,
 	teamUsers:React.PropTypes.array,
-	removeTeamUser:React.PropTypes.func.isRequired
+	removeTeamUser:React.PropTypes.func.isRequired,
+	organizes:React.PropTypes.array,
+	section:React.PropTypes.object,
+	sectionPagerHandler:React.PropTypes.func.isRequired
 }
 
 export default DetialView

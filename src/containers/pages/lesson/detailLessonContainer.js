@@ -8,6 +8,7 @@ import { getOrganizeInfo, fetchList } from 'actions/organize'
 import { addOrganizeLesson } from 'actions/organizeLesson'
 import { getUser } from 'actions/user'
 import { addLessonTeam,removeLessonTeam } from 'actions/lessonTeam'
+import { getSectionList } from 'actions/section'
 
 const mapStateToProps = state => ({
 	lesson : state.lesson.detail,
@@ -15,11 +16,23 @@ const mapStateToProps = state => ({
     limit:state.organize.limit,
     offset:state.organize.offset,
     organizeList:state.organize.list,
+    organizes : state.organizeLesson.plist,
     user:state.user.detail,
-    teamUsers:state.lessonTeam.list
+    teamUsers:state.lessonTeam.list,
+    section:{
+        list:state.section.list,
+        limit:state.section.limit,
+        offset:state.section.offset,
+        total:state.section.total
+    }
 })
 
 const mapDispatchToProps = dispatch =>({
+    sectionPagerHandler:(lid,offset,limit)=>{
+        dispatch( getSectionList({
+            lid,offset,limit
+        }))
+    },
     removeTeamUser:id => {
         dispatch( removeLessonTeam(id) )
     },

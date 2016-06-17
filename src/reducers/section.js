@@ -1,15 +1,34 @@
 import {
     SECTION_ADD_REQUEST,
     SECTION_ADD_SUCCESS,
-    SECTION_ADD_FAILURE
+    SECTION_ADD_FAILURE,
+    GET_SECTION_LIST_SUCCESS,
+    SET_OFFSET_SUCCESS,
+    SET_TOTAL_SUCCESS
 } from 'constants/ActionTypes'
 
 const initialState = {
     loading:false,
-    errorMessage: ''
+    errorMessage: '',
+    list:[],
+    offset:1,
+    limit:6,
+    total:0
 }
 
 const ACTION_HANDLER ={
+    [SET_TOTAL_SUCCESS]:(state,action)=>({
+        ...state,
+        total:action.total
+    }),
+    [SET_OFFSET_SUCCESS]:(state,action) => ({
+        ...state,
+        offset:action.offset
+    }),
+    [GET_SECTION_LIST_SUCCESS]:(state,action) => ({
+        ...state,
+        list:action.list
+    }),
     [SECTION_ADD_REQUEST]: state => ({
         ...state,
         loading:true

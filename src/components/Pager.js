@@ -4,6 +4,10 @@ import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left
 import NavigationChevronRight from 'material-ui/svg-icons/navigation/chevron-right'
 
 const styles = {
+  root:{
+    paddingBottom:20,
+    paddingTop:20
+  },
   footerContent: {
     float: 'right'
   },
@@ -26,14 +30,16 @@ class Pager extends React.Component{
   render() {
         const {offset, total, limit,onPageClick} = this.props
         return (
-            <div>
+            <div style={ styles.root} >
                 <div style={styles.footerContent}>
                     <IconButton disabled={offset === 1} 
                       onClick={ onPageClick.bind(null, offset - 1, limit) }
                     >
                       <NavigationChevronLeft />
                     </IconButton>
-                    <IconButton disabled={offset * limit >= total} onClick={this.props.onPageClick.bind(null, offset + 1,limit)}>
+                    <IconButton 
+                      disabled={offset * limit >= total} 
+                      onClick={()=>this.props.onPageClick(offset + 1,limit)}>
                       <NavigationChevronRight />
                     </IconButton>
                 </div>

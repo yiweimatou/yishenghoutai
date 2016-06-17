@@ -38,7 +38,7 @@ class ListView extends React.Component {
                 >
                     {
                         list.map( row => (
-                            <TableRow key={row.oid} selectable = {false}>
+                            <TableRow key={row.id} selectable = {false}>
                                 <TableRowColumn>{row.id}</TableRowColumn>
                                 <TableRowColumn>{row.lname}</TableRowColumn>
                             </TableRow>

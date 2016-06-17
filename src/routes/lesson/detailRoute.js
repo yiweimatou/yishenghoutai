@@ -2,6 +2,8 @@ import { getLessonIfNeeded } from 'actions/lesson'
 import { injectReducer } from '../../store/reducers'
 import { fetchList,getOrganizeInfo } from 'actions/organize'
 import { getLessonTeamList } from 'actions/lessonTeam'
+import { getOrganizeLessonListIfNeeded } from 'actions/organizeLesson'
+import { getSectionList,setTotal } from 'actions/section'
 
 const detailRoute = store => ({
 	path : 'detail/:id',
@@ -19,6 +21,20 @@ const detailRoute = store => ({
                 reducer
             })
         } 
+		if (store.asyncReducers['section'] === undefined) {
+            const reducer = require('reducers/section').default
+            injectReducer(store, {
+                key: 'section',
+                reducer
+            })
+        } 
+		if (store.asyncReducers['organizeLesson'] === undefined) {
+            const reducer = require('reducers/organizeLesson').default
+            injectReducer(store, {
+                key: 'organizeLesson',
+                reducer
+            })
+        } 
 		if (store.asyncReducers['user'] === undefined) {
             const reducer = require('reducers/user').default
             injectReducer(store, {
@@ -33,6 +49,15 @@ const detailRoute = store => ({
                 reducer
             })
         } 
+		store.dispatch ( setTotal({
+			lid
+		}))
+		store.dispatch( getSectionList({
+			lid,limit:6,offset:1
+		}))
+		store.dispatch ( getOrganizeLessonListIfNeeded({
+			lid,cet:4
+		}))
 		store.dispatch( getLessonTeamList( lid ) )
 		store.dispatch( getOrganizeInfo() )
 		store.dispatch( fetchList({

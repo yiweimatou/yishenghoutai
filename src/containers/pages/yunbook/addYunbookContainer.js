@@ -23,7 +23,7 @@ const onSubmit = (values,dispatch) => {
         if(!values.file){
             return reject(toastr.error('请选择封面'))
         }
-        dispatch(uploadYunbook(values.file))
+        resolve(dispatch(uploadYunbook(values.file))
             .then( data => {
                 if(data){
                     delete values.file
@@ -40,13 +40,14 @@ const onSubmit = (values,dispatch) => {
                 }else{
                     return reject()
                 }
-            })
+            }))
     })
 }
 const mapStateToProps = state => ({
     areas4 : state.area[4],
     areas5 : state.area[5],
-    areas6 : state.area[6]
+    areas6 : state.area[6],
+    areas7 : state.area[7]
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -63,5 +64,8 @@ const mapDispatchToProps = dispatch => ({
 export default connect(mapStateToProps,mapDispatchToProps)(reduxForm({
 	form : 'addYunbook',
 	validate,
-	onSubmit
+	onSubmit,
+    initialValues:{
+        'status':2
+    }
 })(AddView))

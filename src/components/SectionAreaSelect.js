@@ -23,7 +23,7 @@ class AreaSelect extends React.Component {
         select3:null
     }
     componentWillReceiveProps(){
-        if( !this.state.select1 ){
+        if( !this.state.select1 && this.props.select){
             this.setState({
                 select1:this.props.select[0],
                 select2:this.props.select[1],
@@ -33,7 +33,7 @@ class AreaSelect extends React.Component {
     }
     render(){
         const {
-            areas4,areas5,areas6,areas7,changeHandler,select 
+            areas4,areas5,areas6,areas7,changeHandler 
         } = this.props
         let items4 = createMenuItems(areas4)
         let items5 = createMenuItems(areas5)
