@@ -26,7 +26,7 @@ const getLessonTeamInvitedListSuccess = list => ({
 export const getLessonTeamInvitedList = () => {
     return (dispatch, getState) => {
         const user = getState().auth.user
-        return fetch(`${TEAM_LIST_API}?uid=${user.id}&cet=1`).then(response => {
+        return fetch(`${TEAM_LIST_API}?uid=${user.id}&cet=1&common=1`).then(response => {
             if (response.ok) {
                 return response.json()
             } else {
@@ -89,6 +89,9 @@ export const removeLessonTeam = id => {
         const user = getState().auth.user
         return fetch(TEAM_REMOVE_API, {
             method: 'DELETE',
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
             body: `key=${user.id}&token=${user.token}&id=${id}`
         }).then(response => {
             if (response.ok) {

@@ -21,7 +21,7 @@ class ListView extends React.Component {
         }
         else{
             this.state = {
-                id:index[0]
+                id:this.props.list[index[0]].id
             }
         }
     }
@@ -42,7 +42,7 @@ class ListView extends React.Component {
                 <TableHeader
                 >   
                     <TableRow>
-                        <TableHeaderColumn colSpan="2">
+                        <TableHeaderColumn colSpan="5">
                             <div style={{textAlign:'center'}}>
                                 <span>课程认证申请</span>
                             </div>
@@ -61,19 +61,23 @@ class ListView extends React.Component {
                     <TableRow>
                         <TableHeaderColumn tooltip="课程ID">ID</TableHeaderColumn>
                         <TableHeaderColumn tooltip="课程名称">课程名称</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="主讲人">主讲人</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="主讲人手机">主讲人手机</TableHeaderColumn>
+                        <TableHeaderColumn tooltip="申请时间">申请时间</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
                 <TableBody
-                    displayRowCheckbox={true}
                     deselectOnClickaway={false}
-                    showRowHover={true}
                     stripedRows={false}
                 >
                     {
                         list.map( row => (
-                            <TableRow key={row.oid} selected={row.id}>
+                            <TableRow key={row.oid} selected={row.selected}>
                                 <TableRowColumn>{row.id}</TableRowColumn>
                                 <TableRowColumn>{row.lname}</TableRowColumn>
+                                <TableRowColumn>{row.admin_cname||row.admin_nickname }</TableRowColumn>
+                                <TableRowColumn>{row.admin_mobile}</TableRowColumn>
+                                <TableRowColumn>{(new Date(row.add_ms*1000)).toLocaleString()}</TableRowColumn>
                             </TableRow>
                         ))
                     }

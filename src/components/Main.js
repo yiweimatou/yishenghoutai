@@ -39,7 +39,8 @@ class Main extends React.Component {
             handleSelect,
             admin,
             doctor,
-            doctorAssistant
+            doctorAssistant,
+            logoutHandler
         } = this.props
         return (
             <div>
@@ -54,8 +55,7 @@ class Main extends React.Component {
                                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
                                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                             >
-                                <MenuItem primaryText="个人设置" />
-                                <MenuItem primaryText="安全退出" />
+                                <MenuItem primaryText="安全退出" onClick={ logoutHandler }/>
                             </IconMenu>
                     }
                 />
@@ -84,7 +84,8 @@ Main.propTypes = {
     handleSelect:React.PropTypes.func.isRequired,
     admin:React.PropTypes.bool.isRequired,
     doctor:React.PropTypes.bool.isRequired,
-    doctorAssistant:React.PropTypes.bool.isRequired
+    doctorAssistant:React.PropTypes.bool.isRequired,
+    logoutHandler:React.PropTypes.func.isRequired
 }
 
 export default Main

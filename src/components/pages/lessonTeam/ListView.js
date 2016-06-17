@@ -21,7 +21,7 @@ class ListView extends React.Component {
         }
         else{
             this.state = {
-                id:index[0]
+                id:this.props.list[index[0]].id
             }
         }
     }
@@ -40,9 +40,6 @@ class ListView extends React.Component {
                 onRowSelection = { this.rowSelection }
             >
                 <TableHeader
-                    displaySelectAll={false} 
-                    adjustForCheckbox={false} 
-                    enableSelectAll={false}
                 >   
                     <TableRow>
                         <TableHeaderColumn colSpan="2">
@@ -67,14 +64,13 @@ class ListView extends React.Component {
                     </TableRow>
                 </TableHeader>
                 <TableBody
-                    displayRowCheckbox={false}
                     deselectOnClickaway={false}
                     showRowHover={false}
                     stripedRows={false}
                 >
                     {
                         list.map( row => (
-                            <TableRow key={row.id} selected={row.id}>
+                            <TableRow key={row.id} selected={row.selected}>
                                 <TableRowColumn>{row.id}</TableRowColumn>
                                 <TableRowColumn>{row.lname}</TableRowColumn>
                             </TableRow>

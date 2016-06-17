@@ -1,12 +1,36 @@
 import {
 	AREA_LIST_REQUEST,
 	AREA_LIST_SUCCESS,
-	AREA_LIST_FAILURE
+	AREA_LIST_FAILURE,
+	SET_SELECTED_AREA_SUCCESS
 } from 'constants/ActionTypes'
-import { AREA_LIST_API,OK } from 'constants/api' 
+import { AREA_LIST_API,OK,AREA_GET_API } from 'constants/api' 
 import fetch from 'isomorphic-fetch'
 import { object2string } from 'utils/convert'
 import { toastr } from 'react-redux-toastr'
+
+export const setSelectedAreaSuccess = (aid,zoom) => ({
+	type: SET_SELECTED_AREA_SUCCESS,
+	aid,zoom
+})
+
+export const getArea = args => {
+	return fetch(`${AREA_GET_API}?${object2string(args)}`).then( response=>{
+		if( response.ok ){
+			return response.json()
+		}else {
+			throw new Error( response.statusText )
+		}
+	}).then( data=>{
+		if( data.code === OK ){
+			return data.get
+		}else{
+			throw new Error( data.msg )
+		}
+	}).catch( error => {
+		console.log( error.message )
+	})
+}
 
 const listAreaRequest = () => {
 	return {

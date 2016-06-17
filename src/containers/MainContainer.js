@@ -5,6 +5,7 @@ import {
 import {
     push
 } from 'react-router-redux'
+import { logout } from 'actions/auth'
 
 const mapStateToProps = state => {
     return {
@@ -20,6 +21,10 @@ const mapDispatchToProps = dispatch => {
     return {
         handleSelect:(e,value) => {
             dispatch(push(value))
+        },
+        logoutHandler:()=>{
+            dispatch( logout() )
+            dispatch(push('/login'))
         }
     }
 }

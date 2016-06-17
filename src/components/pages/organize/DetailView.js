@@ -57,9 +57,9 @@ class DetailView extends React.Component {
 						<dt style = {styles.dt}>机构简介</dt>
 						<dd style = {styles.dd}>{organize.descript}</dd>
 						<dt style = {styles.dt}>创建时间</dt>
-						<dd style = {styles.dd}>{ new Date(organize.add_ms*1000).toString()}</dd>
+						<dd style = {styles.dd}>{ new Date(organize.add_ms*1000).toLocaleString()}</dd>
 						<dt style = {styles.dt}>更新时间</dt>
-						<dd style = {styles.dd}>{new Date(organize.put_ms*1000).toString()}</dd>
+						<dd style = {styles.dd}>{new Date(organize.put_ms*1000).toLocaleString()}</dd>
 					</dl>
                 </Paper>
                 <Paper style = {styles.table}>

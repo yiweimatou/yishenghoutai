@@ -1,9 +1,6 @@
 import {
     injectReducer
 } from '../../store/reducers.js'
-import {
-    listAreaIfNeeded
-} from 'actions/area'
 
 const sectionRoute = store => ({
     path : 'section',
@@ -22,10 +19,6 @@ const sectionRoute = store => ({
                 reducer
             })
         }
-        store.dispatch(listAreaIfNeeded({
-            pid: 1,
-            zoom: 4
-        }))
     },
     childRoutes:[
         require('./addRoute').default(store)

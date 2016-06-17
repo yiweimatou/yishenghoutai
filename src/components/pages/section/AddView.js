@@ -2,7 +2,7 @@ import React from 'react'
 import { Field } from 'redux-form'
 import { Paper,Dialog,RaisedButton } from 'material-ui'
 import TextField from '../../ReduxForm/TextField'
-import AreaSelect from '../../AreaSelect'
+import SectionAreaSelect from '../../SectionAreaSelect'
 import SelectView from '../yunbook/SelectView'
 
 const styles ={
@@ -47,6 +47,8 @@ class AddView extends React.Component {
             areas4,
             areas5,
             areas6,
+            areas7,
+            select,
             listProps,
             onPageClick,
             myOnPageClick,
@@ -67,10 +69,12 @@ class AddView extends React.Component {
                         style = { styles.item }
                     />
                     <div style ={ styles.item }>
-                        <AreaSelect
+                        <SectionAreaSelect
                             areas4 = { areas4 }
                             areas5 = { areas5 }
                             areas6 = { areas6 }
+                            areas7 = { areas7 }
+                            select = { select }
                             changeHandler = {changeHandler}
                         />        
                     </div>
@@ -130,6 +134,8 @@ AddView.propTypes = {
     areas4:React.PropTypes.array.isRequired,
     areas5:React.PropTypes.array.isRequired,
     areas6:React.PropTypes.array.isRequired,
+    areas7:React.PropTypes.array.isRequired,
+    select:React.PropTypes.array,
     listProps:React.PropTypes.object,
     onPageClick:React.PropTypes.func.isRequired,
     myOnPageClick:React.PropTypes.func.isRequired,

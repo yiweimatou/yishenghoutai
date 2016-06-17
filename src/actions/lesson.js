@@ -149,13 +149,14 @@ export const getLessonIfNeeded = ( args ) => {
 	return (dispatch,getState) => {
 		const lesson = getState().lesson
 		if(lesson.detail && lesson.detail.lid === args.lid){
-			return
+			return lesson.detail
 		}
 		const detail = lesson.list.find(item => {
 			return item.lid === args.lid
 		})
 		if(detail){
-			return dispatch(getLessonSuccess(detail))
+			dispatch(getLessonSuccess(detail))
+			return detail
 		}
 		dispatch(getLessonRequest())
 		return fetch(`${LESSON_GET_API}?${object2string(args)}`)
@@ -168,6 +169,7 @@ export const getLessonIfNeeded = ( args ) => {
 		}).then( data => {
 			if( data.code === OK ){
 				dispatch(getLessonSuccess(data.get))
+				return data.get
 			}else {
 				throw new Error(data.msg)
 			}

@@ -104,9 +104,9 @@ class DetialView extends React.Component {
 							<dt style = {styles.dt}>课程简介</dt>
 							<dd style = {styles.dd}>{lesson.descript}</dd>
 							<dt style = {styles.dt}>创建时间</dt>
-							<dd style = {styles.dd}>{ new Date(lesson.add_ms*1000).toString()}</dd>
+							<dd style = {styles.dd}>{ new Date(lesson.add_ms*1000).toLocaleString()}</dd>
 							<dt style = {styles.dt}>更新时间</dt>
-							<dd style = {styles.dd}>{new Date(lesson.put_ms*1000).toString()}</dd>
+							<dd style = {styles.dd}>{new Date(lesson.put_ms*1000).toLocaleString()}</dd>
 							<dt style = {styles.dt}>浏览量</dt>
 							<dd style = {styles.dd}>{lesson.view_num}</dd>
 							<dt style = {styles.dt}>关注量</dt>
@@ -143,7 +143,7 @@ class DetialView extends React.Component {
 				</Paper>
 				<Paper style = { styles.team } >
 					{teamUsers.map(user=>{
-						return <UserView user={user} />
+						return <UserView key={user.id} user={user} />
 					})}
 				</Paper>
 				<Dialog 
@@ -198,7 +198,7 @@ class DetialView extends React.Component {
 					{
 						teamUsers.map(user => {
 							return(
-								<div style ={ styles.teamManage }>
+								<div key={user.id} style ={ styles.teamManage }>
 									<UserView user={user} />
 									{user.admin === 1 ? null:
 									<div>

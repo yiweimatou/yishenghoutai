@@ -11,6 +11,8 @@ const mapStateToProps = state => ({
     areas4 : state.area[4],
     areas5 : state.area[5],
     areas6 : state.area[6],
+    areas7 : state.area[7],
+    select : state.area.select,
     listProps:{
         list:state.yunbook.list,
         total:state.yunbook.total,

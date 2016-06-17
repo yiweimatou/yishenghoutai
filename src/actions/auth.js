@@ -199,10 +199,10 @@ export const logoutFail = error => {
         error
     }
 }
-export const logout = (id, token) => {
-    return dispatch => {
-        dispatch(startLogout())
-        return fetch(`${USER_LOGOUT_API}?key=${id}&token=${token}`).then(response => {
+export const logout = () => {
+    return (dispatch,getState) => {
+        const user =  getState().auth.user
+        return fetch(`${USER_LOGOUT_API}?key=${user.id}&token=${user.token}`).then(response => {
             if (response.ok) {
                 return response.json()
             } else {
@@ -216,7 +216,6 @@ export const logout = (id, token) => {
                 throw new Error(data.msg)
             }
         }).catch(error => {
-            dispatch(logoutFail(error.message))
             return {
                 msg: error.message
             }
