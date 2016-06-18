@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { Paper,Dialog,RaisedButton } from 'material-ui'
+import { Paper,Dialog,RaisedButton,TextField as Text } from 'material-ui'
 import TextField from '../../ReduxForm/TextField'
 import SectionAreaSelect from '../../SectionAreaSelect'
 import SelectView from '../yunbook/SelectView'
@@ -41,6 +41,10 @@ class AddView extends React.Component {
             open:!this.state.open
         })
     }
+    handlerSelectId = (id,name) => {
+        this.refs.bname.input.value = name
+        this.props.selectIdHandler(id,this.openHandler)
+    }
     render(){
         const {
             areas4,
@@ -51,7 +55,6 @@ class AddView extends React.Component {
             listProps,
             onPageClick,
             myOnPageClick,
-            selectIdHandler,
             submitting,
             invalid,
             reset,
@@ -76,13 +79,17 @@ class AddView extends React.Component {
                             select = { select }
                         />        
                     </div>
-                    <Field 
-                        name = 'bid'
+                    <Text 
+                        ref = 'bname'
                         hintText = '选择云板书'
                         floatingLabelText = '选择云板书'
-                        component = { TextField }
                         onClick = { this.openHandler }
                         style = { styles.item }
+                    />
+                    <Field
+                        name = 'bid'
+                        style = {{display:'none'}}
+                        component = { TextField }
                     />
                     <Field 
                         name = 'descript'
@@ -118,7 +125,7 @@ class AddView extends React.Component {
                          onPageClick = { onPageClick }
                          myOnPageClick = { myOnPageClick }
                          selectIdHandler = { 
-                             (id)=> selectIdHandler(id,this.openHandler) 
+                             this.handlerSelectId 
                         }
                     />
                 </Dialog>

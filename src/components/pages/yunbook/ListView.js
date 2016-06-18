@@ -17,7 +17,7 @@ class ListView extends React.Component {
                     cols = { cols||4 } 
                 >
                 {
-                    list.map( tile => {
+                    list.filter((item,index)=>index<limit*offset&&index>=(offset-1)*limit).map( tile => {
                         return <GridTile 
                                     key = { tile.bid }
                                     title = { tile.title }
@@ -26,7 +26,7 @@ class ListView extends React.Component {
                                         <FloatingActionButton 
                                             mini ={ true }
                                             onClick = { 
-                                                ()=>selectIdHandler(tile.bid)
+                                                ()=>selectIdHandler(tile.bid,tile.title)
                                             } 
                                         >
                                             <ContentAdd />
@@ -38,9 +38,7 @@ class ListView extends React.Component {
                                         to = {`/yunbook/show/${tile.bid}`}
                                         target = '_blank'
                                     >
-                                        <img 
-                                            width='256'
-                                            height='256'
+                                        <img
                                             src= { tile.cover }
                                         />
                                     </Link>
