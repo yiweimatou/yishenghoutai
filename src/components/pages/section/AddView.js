@@ -42,8 +42,7 @@ class AddView extends React.Component {
         })
     }
     render(){
-        let {
-            changeHandler,
+        const {
             areas4,
             areas5,
             areas6,
@@ -75,7 +74,6 @@ class AddView extends React.Component {
                             areas6 = { areas6 }
                             areas7 = { areas7 }
                             select = { select }
-                            changeHandler = {changeHandler}
                         />        
                     </div>
                     <Field 
@@ -130,7 +128,6 @@ class AddView extends React.Component {
 }
 
 AddView.propTypes = {
-    changeHandler : React.PropTypes.func.isRequired,
     areas4:React.PropTypes.array.isRequired,
     areas5:React.PropTypes.array.isRequired,
     areas6:React.PropTypes.array.isRequired,

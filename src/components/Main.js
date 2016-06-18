@@ -13,8 +13,12 @@ const styles = {
         color:'white'
     },
     paper:{
-        margin:20,
+        margin:60,
         padding:20
+    },
+    appBar:{
+        position:'fixed',
+        top:0
     }
 }
 class Main extends React.Component {
@@ -45,6 +49,7 @@ class Main extends React.Component {
         return (
             <div>
                 <AppBar 
+                    style = { styles.appBar }
                     title = '管理后台'
                     onLeftIconButtonTouchTap = {this.handleNavButtonTouch}
                     iconElementRight={

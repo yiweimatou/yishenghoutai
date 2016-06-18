@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { reduxForm,change } from 'redux-form'
 import AddView from 'pages/section/AddView'
-import { listAreaIfNeeded } from 'actions/area'
 import { addSection } from 'actions/section'
 import {
     getYunbookListIfNeeded
@@ -26,11 +25,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    changeHandler : (pid,zoom) => {
-        return Promise.resolve(dispatch(listAreaIfNeeded({
-            pid,zoom
-        })))
-    },
     onPageClick : (offset,limit) => {
         dispatch(getYunbookListIfNeeded({
             uid:0,

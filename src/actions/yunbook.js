@@ -31,6 +31,43 @@ import fetch from 'isomorphic-fetch'
 import { object2string } from 'utils/convert'
 import { toastr } from 'react-redux-toastr'
 
+export const getYunbookSuccess = (yunbook) => ({
+	type:YUNBOOK_GET_SUCCESS,
+	yunbook
+})
+
+export const getYunbook = bid => {
+	return (dispatch,getState) => {
+		const state = getState().yunbook
+		if( state.detail && bid === state.detail.bid ){
+			return
+		}
+		const yunbook = state.list.find( item => item.bid === bid )
+		if( yunbook ){
+			return dispatch(getYunbookSuccess( yunbook ))
+		}
+		return fetch(`${YUNBOOK_GET_API}?bid=${bid}`).then( response=>{
+			if( response.ok ){
+				return response.json()
+			}else{
+				throw new Error( response.statusText )
+			}
+		}).then( data => {
+			if( data.code === OK ){
+				if( data.get.bid > 0 ){
+					dispatch( getYunbookSuccess( data.get ) )
+				}else{
+					toastr.error( '找不到该云板书' )
+				}
+			}else{
+				throw new Error( data.msg )
+			}
+		}).catch( error => {
+			toastr.error( error.message )
+		})
+	}
+}
+
 const addYunbookRequest = () => {
 	return {
 		type:YUNBOOK_ADD_REQUEST

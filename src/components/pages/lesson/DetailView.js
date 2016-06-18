@@ -6,8 +6,7 @@ import SelectListView from '../organize/SelectListView'
 import SelectView from '../user/SelectView'
 import UserView from '../../UserView'
 import OrganizeView from '../../OrganizeView'
-import SectionView from '../../SectionView'
-import Pager from '../../Pager'
+import ListView from '../section/ListView'
 
 const styles = {
     paper:{
@@ -79,6 +78,11 @@ class DetialView extends React.Component {
 	}
 	render () {
 		const {
+			areas4,
+            areas5,
+            areas6,
+            areas7,
+            select,
 			section,
 			lesson,
 			onChange,
@@ -97,7 +101,11 @@ class DetialView extends React.Component {
 			teamUsers,
 			removeTeamUser,
 			organizes,
-			sectionPagerHandler
+			sectionPagerHandler,
+			admin,
+			editHandler,
+			deleteHandler,
+			initialEditView
 		} = this.props
 		if( !lesson ){
 			return (null)
@@ -120,7 +128,7 @@ class DetialView extends React.Component {
 							<dd style = {styles.dd}>{lesson.view_num}</dd>
 							<dt style = {styles.dt}>关注量</dt>
 							<dd style = {styles.dd}>{lesson.focus_num}</dd>
-						</dl>
+						</dl>						
 						<div style = { styles.div }>
 							<RaisedButton 
 								label ='编辑' 
@@ -137,16 +145,23 @@ class DetialView extends React.Component {
 								primary = { true }
 								onClick = { this.applyOpenHandler }
 							/>
+							{admin?
 							<RaisedButton 
 								label ='邀请成员' 
 								primary = { true }
 								onClick = { this.inviteOpenHandler }
-							/>
+							/>:null}
+							{admin?
 							<RaisedButton 
 								label ='团队管理' 
 								primary = { true }
 								onClick = { this.teamManageOpenHandler }
+							/>:
+							<RaisedButton label = '退出团队'
+								secondary = { true }
+								onClick = { ()=>removeTeamUser(lesson.lid) }
 							/>
+							}
 						</div>
 					</div>
 				</Paper>
@@ -174,17 +189,20 @@ class DetialView extends React.Component {
 				</Paper>
 				<Paper style = { styles.team }>
 					<h2>文章列表</h2>
-					<Divider />
-					<div style = { styles.flex }>
-					{
-						section.list.map( section=><SectionView section={section} key={section.sid}/>)
-					}
-					</div>
-					<Pager 
+					<ListView
+						areas4 = { areas4 }
+						areas5 = { areas5 }
+						areas6 = { areas6 }
+						areas7 = { areas7 }
+						select = { select }
+						initialEditView = { (id)=>initialEditView(lesson.aid,id) }
+						list = { section.list }
 						limit={section.limit} 
 						offset={section.offset} 
 						total = {section.total}
 						onPageClick={ ()=>sectionPagerHandler(offset,limit,lesson.lid) }
+						editHandler = { editHandler }
+						deleteHandler = { deleteHandler }
 					/>
 				</Paper>
 				<Dialog 
@@ -281,7 +299,16 @@ DetialView.propTypes = {
 	removeTeamUser:React.PropTypes.func.isRequired,
 	organizes:React.PropTypes.array,
 	section:React.PropTypes.object,
-	sectionPagerHandler:React.PropTypes.func.isRequired
+	sectionPagerHandler:React.PropTypes.func.isRequired,
+	admin:React.PropTypes.bool.isRequired,
+	editHandler:React.PropTypes.func.isRequired,
+	deleteHandler:React.PropTypes.func.isRequired,
+	initialEditView:React.PropTypes.func.isRequired,
+	areas4:React.PropTypes.array.isRequired,
+    areas5:React.PropTypes.array.isRequired,
+    areas6:React.PropTypes.array.isRequired,
+    areas7:React.PropTypes.array.isRequired,
+    select:React.PropTypes.array
 }
 
 export default DetialView

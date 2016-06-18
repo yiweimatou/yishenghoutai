@@ -6,7 +6,7 @@ import {
     UPLOAD_YUNBOOK_SUCCESS,
     UPLOAD_YUNBOOK_FAILURE
 } from 'constants/ActionTypes'
-import { UPLOAD_COVER_API,UPLOAD_YUNBOOK_API,OK } from 'constants/api'
+import { UPLOAD_COVER_API,UPLOAD_YUNBOOK_API,OK,UPLOAD_PPT_API } from 'constants/api'
 import fetch from 'isomorphic-fetch'
 import { toastr } from 'react-redux-toastr'
 
@@ -26,11 +26,12 @@ const uploadCoverFailure = (errorMessage) => {
 		errorMessage
 	}
 }
-export const uploadCover = file => {
+export const uploadCover = (file) => {
     return dispatch => {
         dispatch(uploadCoverRequest())
         let formData =  new FormData()
         formData.append('upload_file',file)
+        
         return fetch(UPLOAD_COVER_API, {
             method: 'POST',
             body: formData
@@ -73,15 +74,21 @@ const uploadYunbookFailure = errorMessage => {
     }
 }
 
-export const uploadYunbook = file => {
+export const uploadYunbook = (pptOrImage, file) => {
     if ( !file ) {
         return
+    }
+    let api = ''
+    if( pptOrImage === 1){
+        api = UPLOAD_PPT_API
+    }else if( pptOrImage === 2){
+        api = UPLOAD_YUNBOOK_API
     }
     return dispatch => {
         dispatch(uploadYunbookRequest())
         let formData =  new FormData()
         formData.append('upload_file',file)
-        return fetch(UPLOAD_YUNBOOK_API, {
+        return fetch(api, {
             method: 'POST',
             body: formData
         }).then(response => {

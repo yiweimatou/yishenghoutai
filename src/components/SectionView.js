@@ -17,7 +17,7 @@ class SectionView extends React.Component {
         return (
             <Paper style = { styles.paper } >
                 <span>{section.sname}</span>
-                <span>{new Date(section.add_ms).toDateString()}</span>
+                <span>{new Date(section.add_ms*1000).toDateString()}</span>
             </Paper>
         )
     }

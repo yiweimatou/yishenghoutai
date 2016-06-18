@@ -56,6 +56,7 @@ export const SECTION_INFO_API = `${USER_API_DOMAIN}/section/info`
 export const SECTION_EDIT_API = `${USER_API_DOMAIN}/section/put`
 export const SECTION_ADD_API = `${USER_API_DOMAIN}/section/add`
 export const SECTION_LIST_API =`${USER_API_DOMAIN}/section/list`
+export const SECTION_DELETE_API = `${USER_API_DOMAIN}/section/del`
 /**
  * area apis
  */

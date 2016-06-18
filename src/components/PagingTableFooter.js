@@ -20,7 +20,7 @@ class PagingTableFooter extends React.Component{
     offset: React.PropTypes.number.isRequired, // current offset
     total: React.PropTypes.number.isRequired, // total number of rows
     limit: React.PropTypes.number.isRequired, // num of rows in each page
-    onPageClick: React.PropTypes.func // what to do after clicking page number
+    onPageClick: React.PropTypes.func.isRequired // what to do after clicking page number
   }
 
   render() {

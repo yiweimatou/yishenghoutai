@@ -39,6 +39,8 @@ class ListView extends React.Component {
                                         target = '_blank'
                                     >
                                         <img 
+                                            width='256'
+                                            height='256'
                                             src= { tile.cover }
                                         />
                                     </Link>

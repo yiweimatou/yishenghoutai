@@ -42,6 +42,13 @@ const detailRoute = store => ({
                 reducer
             })
         } 
+		if (store.asyncReducers['area'] === undefined) {
+            const reducer = require('reducers/area').default
+            injectReducer(store, {
+                key: 'area',
+                reducer
+            })
+        }
 		if (store.asyncReducers['lessonTeam'] === undefined) {
             const reducer = require('reducers/lessonTeam').default
             injectReducer(store, {

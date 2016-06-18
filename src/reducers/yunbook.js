@@ -35,6 +35,10 @@ const initialState = {
 }
 
 const ACTION_HANDLERS = {
+	[YUNBOOK_GET_SUCCESS]:(state,action) => ({
+		...state,
+		detail:action.yunbook
+	}),
 	[YUNBOOK_ADD_REQUEST]: state => ({
 		...state,
 		loading:true

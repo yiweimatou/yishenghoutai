@@ -1,10 +1,9 @@
 import React from 'react'
 import { Field } from 'redux-form'
-import { RaisedButton,MenuItem} from 'material-ui'
+import { RaisedButton,MenuItem,TextField as Text } from 'material-ui'
 import TextField from '../../ReduxForm/TextField'
 import SelectField from '../../ReduxForm/SelectField'
-import ImageUpload from '../../ImageUpload'
-import SectionAreaSelect from '../../SectionAreaSelect'
+import AreaSelect2 from '../../AreaSelect2'
 
 
 const styles = {
@@ -14,7 +13,7 @@ const styles = {
         alignItems:'center'
     },
     item:{
-        width:'80%'
+        width:'100%'
     },
     margin:{
         marginLeft:20
@@ -22,11 +21,11 @@ const styles = {
     selectDiv:{
         display:'flex',
         justifyContent:'space-between',
-        width:'80%'
+        width:'100%'
     },
     submit:{
         display:'flex',
-        width:'80%',
+        width:'100%',
         flexFlow:'row wrap',
         marginTop:30
     }
@@ -34,17 +33,16 @@ const styles = {
 class AddView extends React.Component {
     render() {
         const {
-            handleSubmit, 
             submitting, 
             invalid, 
-            reset, 
             changeHandler,
-            onChange,
-            areas5,areas6,areas4,areas7
+            areas5,areas6,areas4,areas7,
+            reset,
+            handleSubmit,
+            onChange
         } = this.props
         return (
-            <form onSubmit = { handleSubmit } style = { styles.form } >
-                <ImageUpload onChange = { onChange } />
+            <form style = { styles.form } onSubmit={handleSubmit} >
                 <Field  
                     name = 'title' 
                     type = 'text'
@@ -67,14 +65,20 @@ class AddView extends React.Component {
                     />
                     <MenuItem primaryText = '所有人可见' value={2}/>
                 </Field>
-                <div style = { styles.item }>
-                    <SectionAreaSelect
+                <Text 
+                    id = '_file'
+                    type = 'file'
+                    style = { styles.item }
+                    onChange = { (e)=>onChange(e.target.files[0])}
+                />
+                <div style={ styles.item }>
+                    <AreaSelect2
+                        changeHandler = { changeHandler }
                         areas4 = { areas4 }
                         areas5 = { areas5 }
                         areas6 = { areas6 }
                         areas7 = { areas7 }
-                        changeHandler = {changeHandler}
-                    />      
+                    />
                 </div>
                 <Field name = 'descript'
                         hintText = '云板书简介'

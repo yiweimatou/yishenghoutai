@@ -28,3 +28,7 @@ export const isNumeric = value => {
     }
     return matchRegexp(value, /^[-+]?(?:\d*[.])?\d+$/)
 }
+
+export const isImage = value => {
+    return matchRegexp(value,/(\jpg|\jpeg|\bmp|\gif|\png)$/)
+}
