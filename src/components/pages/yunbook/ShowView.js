@@ -27,17 +27,19 @@ class ShowView extends React.Component{
         if( !yunbook ){
             return (null)
         }
+        const url = `${yunbook.path}/{z}/{x}/{y}.png`
         return (
             <Map
                  ref = '_map'                
                  style ={styles.map}
                  attributionControl = {false}
+                 bounds = {[[0, this.props.yunbook.height],[this.props.yunbook.width, 0]]}
             >
                 <TileLayer
                     minZoom = { 0 }
                     maxZoom = { yunbook.zoom }
                     noWrap = {true} 
-                    url={`${yunbook.path}/{z}/{x}/{y}.png`}
+                    url={ url }
                 />
             </Map>
         )

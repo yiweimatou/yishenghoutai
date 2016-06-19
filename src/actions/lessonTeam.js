@@ -17,6 +17,7 @@ import {
 import {
     toastr
 } from 'react-redux-toastr'
+import { object2string } from 'utils/convert'
 
 const getLessonTeamInvitedListSuccess = list => ({
     type: GET_LESSONTEAM_INVITED_LIST_SUCCESS,
@@ -124,10 +125,10 @@ const getLessonTeamListFailure = () => ({
     type: GET_LESSONTEAM_LIST_FAILURE
 })
 
-export const getLessonTeamList = (lid) => {
+export const getLessonTeamList = args => {
     return dispatch => {
         dispatch(getLessonTeamListRequest())
-        return fetch(`${TEAM_LIST_API}?lid=${lid}&cet=4`).then(response => {
+        return fetch(`${TEAM_LIST_API}?${object2string(args)}`).then(response => {
             if (response.ok) {
                 return response.json()
             } else {
@@ -136,6 +137,7 @@ export const getLessonTeamList = (lid) => {
         }).then(data => {
             if (data.code === OK) {
                 dispatch(getLessonTeamListSuccess(data.list))
+                return data.list
             } else {
                 throw new Error(data.msg)
             }

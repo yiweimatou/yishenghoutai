@@ -38,8 +38,8 @@ const createMenuItems = areas => {
 }
 class AddView extends React.Component {
     state = {
-        select1:0,
-        select2:0
+        select1:null,
+        select2:null
     }
     render() {
         const {
@@ -118,7 +118,7 @@ class AddView extends React.Component {
                 <div style = { styles.submit } >
                     <RaisedButton 
                         type = 'submit'
-                        label = '提交新建'
+                        label = {submitting?'新建中...':'提交新建'}
                         primary = { true }
                         disabled = { submitting || invalid }
                     />

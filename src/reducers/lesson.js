@@ -85,7 +85,7 @@ import {
              ...state,
          loading: false,
          method: '',
-         list: action.lessons
+         list: state.list.concat(action.lessons)
      }),
      [LESSON_LIST_FAILURE]: (state, action) => ({
              ...state,

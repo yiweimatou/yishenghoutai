@@ -65,7 +65,7 @@ const detailRoute = store => ({
 		store.dispatch ( getOrganizeLessonListIfNeeded({
 			lid,cet:4
 		}))
-		store.dispatch( getLessonTeamList( lid ) )
+		store.dispatch( getLessonTeamList( {lid,cet:4} ) )
 		store.dispatch( getOrganizeInfo() )
 		store.dispatch( fetchList({
 			limit:4,

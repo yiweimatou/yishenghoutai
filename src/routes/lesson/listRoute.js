@@ -1,12 +1,21 @@
 import { listLesson } from 'actions/lesson'
+import { getLessonTeamList } from 'actions/lessonTeam'
 
 const listRoute = store => ({
 	path:'list',
 	onEnter(){
+		const uid = store.getState().auth.user.id
 		if(store.getState().lesson.list.length === 0){
 			store.dispatch(listLesson({
-				uid:store.getState().auth.user.id
+				uid
 			}))
+			store.dispatch( getLessonTeamList({cet:4,uid}) ).then(list=>{
+				if( list && list.length > 0){
+					list.forEach(item=>{
+						store.dispatch ( listLesson(item.lid) )
+					})
+				}
+			})
 		}
 	},
 	getComponent(nextState,cb){
