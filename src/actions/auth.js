@@ -5,7 +5,8 @@ import {
     USER_LOGOUT_API,
     ORGANIZE_INFO_API,
     LESSON_INFO_API,
-    TEAM_INFO_API
+    TEAM_INFO_API,
+    USER_GET_API
 } from '../constants/api'
 import {
     LOGIN,
@@ -64,7 +65,7 @@ export const checkAdmin = () => {
 export const checkDoctor = () => {
     return (dispatch,getState) => {
         const user = getState().auth.user
-        return fetch(`${LESSON_INFO_API}?key=${user.id}&token=${user.token}&uid=${user.id}`)
+        return fetch(`${USER_GET_API}?key=${user.id}&token=${user.token}&uid=${user.id}`)
         .then(response => {
             if(response.ok) {
                 return response.json()
@@ -73,7 +74,7 @@ export const checkDoctor = () => {
             }
         }).then( data => {
             if(data.code === OK){
-                if(data.count > 0){
+                if(data.lesson === 2){
                     dispatch(setDoctor())
                 }
             }else{
@@ -157,8 +158,7 @@ export const login = (mobile, pwd) => {
                 }))
                 Promise.all([
                     dispatch(checkAdmin()),
-                    dispatch(checkDoctor()),
-                    dispatch(checkDoctorAssistant())])
+                    dispatch(checkDoctor())])
                     .then(() => {
                         localStorage['__INITIAL_STATE__'] = JSON.stringify({
                             auth: getState().auth

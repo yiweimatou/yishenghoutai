@@ -12,7 +12,7 @@ class SelectView extends React.Component {
         const {
             list,offset,limit,total,onPageClick,
             myList,myOffset,myLimit,myTotal,myOnPageClick,
-            selectIdHandler
+            selectIdHandler,onClick
         } = this.props
         return(
             <Tabs>
@@ -27,12 +27,14 @@ class SelectView extends React.Component {
                             padding = { 30 }
                             cols = { 2 }
                             selectIdHandler = { selectIdHandler }
+                            onClick = { onClick }
                         />
                     </div>
                 </Tab>
                 <Tab label="我的云板书">
                     <div style = { styles.div } >
                         <ListView 
+                           onClick = { onClick }
                             list = { myList }
                             offset = { myOffset }
                             limit = { myLimit }
@@ -60,7 +62,8 @@ SelectView.propTypes = {
     myLimit:React.PropTypes.number,
     myTotal:React.PropTypes.number,
     myOnPageClick:React.PropTypes.func,
-    selectIdHandler:React.PropTypes.func
+    selectIdHandler:React.PropTypes.func,
+    onClick:React.PropTypes.func
 }
 
 export default SelectView

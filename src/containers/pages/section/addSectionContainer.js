@@ -5,6 +5,7 @@ import { addSection } from 'actions/section'
 import {
     getYunbookListIfNeeded
 } from 'actions/yunbook'
+import { push } from 'react-router-redux'
 
 const mapStateToProps = state => ({
     areas4 : state.area[4],
@@ -44,6 +45,9 @@ const mapDispatchToProps = dispatch => ({
         .then(()=>{
             close()
         })
+    },
+    onClick : bid => {
+        dispatch( push(`/yunbook/show/${bid}`) )
     }
 })
 

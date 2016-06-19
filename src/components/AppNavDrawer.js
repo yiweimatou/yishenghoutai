@@ -42,14 +42,17 @@ class AppNavDrawer extends React.Component{
 							]}		
 						/>):null
 					}
-					<ListItem 
-						primaryText="云板书管理" 
-						primaryTogglesNestedList = {true}
-						nestedItems = {[
-							<ListItem primaryText = "新增" value = "/yunbook/add" />,
-							<ListItem primaryText = "列表" value = "/yunbook/list" />
-						]}			
-					/>
+					{
+						(doctor) ?
+						<ListItem 
+							primaryText="云板书管理" 
+							primaryTogglesNestedList = {true}
+							nestedItems = {[
+								<ListItem primaryText = "新增" value = "/yunbook/add" />,
+								<ListItem primaryText = "列表" value = "/yunbook/list" />
+							]}			
+						/>:null
+					}
 					<ListItem
 						primaryText = '我的团队邀请'
 						value = '/teaminvited/list' 

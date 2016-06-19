@@ -1,14 +1,13 @@
 import React from 'react'
 import { GridList,GridTile } from 'material-ui/GridList'
 import Pager from '../../Pager'
-import { Link } from 'react-router'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 class ListView extends React.Component {
     render(){
         const {
-            list,offset,limit,total,onPageClick,padding,cols,selectIdHandler
+            onClick,list,offset,limit,total,onPageClick,padding,cols,selectIdHandler
         } = this.props
         return (
             <div>
@@ -34,14 +33,10 @@ class ListView extends React.Component {
                                         :null
                                     }
                                 >
-                                    <Link
-                                        to = {`/yunbook/show/${tile.bid}`}
-                                        target = '_blank'
-                                    >
-                                        <img
-                                            src= { tile.cover }
-                                        />
-                                    </Link>
+                                    <img
+                                        onClick = { ()=> onClick(tile.bid)}
+                                        src= { tile.cover }
+                                    />
                                 </GridTile>
                     })
                 }
@@ -65,6 +60,7 @@ ListView.propTypes = {
     onPageClick: React.PropTypes.func.isRequired,
     padding:React.PropTypes.number,
     cols:React.PropTypes.number,
-    selectIdHandler:React.PropTypes.func
+    selectIdHandler:React.PropTypes.func,
+    onClick:React.PropTypes.func.isRequired
 }
 export default ListView

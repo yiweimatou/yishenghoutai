@@ -47,6 +47,7 @@ class AddView extends React.Component {
     }
     render(){
         const {
+            onClick,
             areas4,
             areas5,
             areas6,
@@ -122,6 +123,7 @@ class AddView extends React.Component {
                 >
                     <SelectView
                         {...listProps}
+                         onClick = { onClick }
                          onPageClick = { onPageClick }
                          myOnPageClick = { myOnPageClick }
                          selectIdHandler = { 
@@ -147,7 +149,8 @@ AddView.propTypes = {
     handleSubmit:React.PropTypes.func.isRequired,
     submitting:React.PropTypes.bool.isRequired,
     reset:React.PropTypes.func.isRequired,
-    invalid:React.PropTypes.bool.isRequired
+    invalid:React.PropTypes.bool.isRequired,
+    onClick:React.PropTypes.func.isRequired
 }
 
 export default AddView

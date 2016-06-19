@@ -37,7 +37,7 @@ const validate = values => {
 }
 
 const onSubmit = (values, dispatch) => {
-    return new Promise( (resolve,reject) => {
+    return new Promise( (resolve) => {
             const ext = values.file.name
             let pptOrImage = 0
             if (ext === 'ppt' || ext === 'pptx') {
@@ -45,7 +45,7 @@ const onSubmit = (values, dispatch) => {
             } else if (isImage(ext)) {
                 pptOrImage = 2
             } else {
-                return reject(toastr.error('请选择ppt或者图片上传'))
+                return resolve(toastr.error('请选择ppt或者图片上传'))
             }
             dispatch(uploadYunbook(pptOrImage, values.file)).then(data=>{
                 if( data ){
@@ -58,13 +58,11 @@ const onSubmit = (values, dispatch) => {
                     dispatch( addYunbook(values) ).then((id)=>{
                         if(id){
                             dispatch(push(`/yunbook/show/${id}`))
-                            resolve()
-                        }else{
-                            reject()
                         }
+                        resolve()                        
                     })
                 }else{
-                    reject()
+                    resolve()
                 }
             })
     })
