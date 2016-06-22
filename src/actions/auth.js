@@ -4,9 +4,10 @@ import {
     USER_LOGIN_API,
     USER_LOGOUT_API,
     ORGANIZE_INFO_API,
-    LESSON_INFO_API,
-    TEAM_INFO_API,
-    USER_GET_API
+    // LESSON_INFO_API,
+    // TEAM_INFO_API,
+    USER_GET_API,
+    USER_EDIT_PWD_API
 } from '../constants/api'
 import {
     LOGIN,
@@ -20,6 +21,34 @@ import {
     SET_DOCTORASSISTANT
 } from '../constants/ActionTypes'
 import { toastr } from 'react-redux-toastr'
+
+
+export const changepwd = (oldpwd,pwd) => {
+    return (dispatch,getState) => {
+        const user = getState().auth.user
+        return fetch(USER_EDIT_PWD_API,{
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            method:'PUT',
+            body:`key=${user.id}&token=${user.token}&old_pwd=${oldpwd}&pwd=${pwd}`
+        }).then( response => {
+            if( response.ok ){
+                return response.json()
+            }else{
+                throw new Error( response.statusText )
+            }
+        }).then( data => {
+            if( data.code === OK ){
+                toastr.success( '修改成功!')
+            }else{
+                throw new Error( data.msg )
+            }
+        }).catch( error => {
+            toastr.error( error.message )
+        })
+    }
+}
 
 export const setAdmin = () => {
     return {
@@ -50,8 +79,10 @@ export const checkAdmin = () => {
                 throw new Error(response.statusText)
             }
         }).then( data => {
-            if(data.code === OK && data.count > 0){
-                dispatch(setAdmin())
+            if(data.code === OK){
+                if( data.count>0 ){
+                    dispatch(setAdmin())
+                }
             }else{
                 throw new Error(data.msg)
             }
@@ -74,31 +105,10 @@ export const checkDoctor = () => {
             }
         }).then( data => {
             if(data.code === OK){
-                if(data.lesson === 2){
+                if(data.get.lessons === 2){
                     dispatch(setDoctor())
                 }
-            }else{
-                throw new Error(data.msg)
-            }
-        }).catch(error => {
-            toastr.error(error.message)
-        })
-    }
-}
-
-export const checkDoctorAssistant = () => {
-    return (dispatch,getState) => {
-        const user = getState().auth.user
-        return fetch(`${TEAM_INFO_API}?key=${user.id}&token=${user.token}&uid=${user.id}`)
-        .then(response => {
-            if(response.ok) {
-                return response.json()
-            }else{
-                throw new Error(response.statusText)
-            }
-        }).then( data => {
-            if( data.code === OK ){
-                if(data.count > 0){
+                if(data.get.lesson === 2){
                     dispatch(setDoctorAssistant())
                 }
             }else{
@@ -109,6 +119,7 @@ export const checkDoctorAssistant = () => {
         })
     }
 }
+
 /**
  * login
  */
@@ -164,17 +175,17 @@ export const login = (mobile, pwd) => {
                             auth: getState().auth
                         })
                 })
+                toastr.success('登录成功!')
                 return {
                     ok: true
                 }
+                 
             } else {
                 throw new Error(data.msg)
             }
         }).catch(error => {
             dispatch(loginFailure(error.message))
-            return {
-                msg: error.message
-            }
+            toastr.error( error.message )
         })
     }
 }

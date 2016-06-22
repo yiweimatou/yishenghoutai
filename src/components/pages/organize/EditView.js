@@ -3,6 +3,7 @@ import { Field } from 'redux-form'
 import { MenuItem, RaisedButton } from 'material-ui'
 import TextField from '../../ReduxForm/TextField'
 import SelectField from '../../ReduxForm/SelectField'
+import ImageUpload from '../../ImageUpload'
 
 const styles = {
     form:{
@@ -25,36 +26,22 @@ const styles = {
         width:'80%',
         flexFlow:'row wrap',
         marginTop:30
-    },
-    url:{
-        marginLeft:20,
-        flex:1
-    },
-    input:{
-        width :0.1,
-        height :0.1,
-        opacity :0,
-        overflow :'hidden',
-        position :'absolute',
-        zIndex :-1
     }
 }
 class EditView extends React.Component {
 	render() {
 		const {
-			handleSubmit,submitting,invalid
+			handleSubmit,submitting,invalid,onChange,organize
 		} = this.props
+        if( !organize ){
+            return null
+        }
 		return (
 			<form onSubmit = { handleSubmit } style = { styles.form }>
+                <ImageUpload onChange = { onChange } url = { organize.logo }/>
 				<Field name = 'oname' 
                     hintText = '机构名称'
                     floatingLabelText = '机构名称'
-                    component = {TextField}
-                    style = { styles.item }
-                />
-                <Field name = 'logo' 
-                    hintText = 'logoURL地址'
-                    floatingLabelText = 'logoURL地址'
                     component = {TextField}
                     style = { styles.item }
                 />
@@ -67,6 +54,18 @@ class EditView extends React.Component {
                     <MenuItem value={ 1 } primaryText="正常"/>
                     <MenuItem value={ 2 } primaryText="冻结"/>
                     <MenuItem value={ 3 } primaryText="永久冻结"/>
+                </Field>
+                <Field name = 'category'
+                    component = { SelectField }
+                    style = { styles.item }
+                    hintText = '机构类型'
+                    floatingLabelText = '机构类型'
+                >
+                    <MenuItem value={1} primaryText="官方"/>
+                    <MenuItem value={2} primaryText="医院"/>
+                    <MenuItem value={3} primaryText="药企"/>
+                    <MenuItem value={4} primaryText='学校'/>
+                    <MenuItem value={5} primaryText='其他'/>
                 </Field>
                 <Field name = 'descript'
                     hintText = '机构简介'
@@ -92,7 +91,9 @@ class EditView extends React.Component {
 EditView.propTypes = {
     submitting:React.PropTypes.bool.isRequired,
     invalid:React.PropTypes.bool.isRequired,
-    handleSubmit:React.PropTypes.func.isRequired
+    handleSubmit:React.PropTypes.func.isRequired,
+    organize: React.PropTypes.object,
+    onChange:React.PropTypes.func.isRequired
 }
 
 export default EditView

@@ -1,9 +1,11 @@
-import { reduxForm } from 'redux-form'
+import { reduxForm,change } from 'redux-form'
 import EditView from 'pages/organize/EditView'
 import {
     isUrl
 } from 'utils/validation'
 import { editOrganize } from 'actions/organize'
+import { connect } from 'react-redux'
+import { uploadCover } from '../../../actions/upload'
 
 const validate = values => {
     const errors = {}
@@ -22,13 +24,45 @@ const validate = values => {
 }
 
 const onSubmit = (values, dispatch) => {
-    return new Promise(() => {
-        dispatch(editOrganize(values))
+    const organize = {
+        oid:values.oid,
+        category:values.category,
+        oname:values.oname,
+        uid:values.uid,
+        state:values.state,
+        descript:values.descript,
+        logo:values.logo
+    }
+    return new Promise((resolve) => {
+        if( values.file ){
+            dispatch( uploadCover(values.file) ).then(logo=>{
+                if( logo ){
+                    organize.logo = logo
+                    dispatch( editOrganize(organize) ).then(()=>{
+                        resolve()
+                    })
+                }
+            })
+        } else {
+            dispatch(editOrganize(values)).then(()=>{
+                resolve()
+            })
+        }
     })
 }
 
-export default reduxForm({
+const mapStateToProps = state => ({
+    organize : state.organize.detail
+})
+
+const mapDispatchToProps = dispatch => ({
+    onChange: file => {
+        dispatch(change('editOrganize','file',file))
+    }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(reduxForm({
 	form:'editOrganize',
 	validate,
 	onSubmit
-})(EditView)
+})(EditView))

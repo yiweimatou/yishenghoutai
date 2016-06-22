@@ -2,7 +2,7 @@ import {
 	OK,
 	LESSON_ADD_API,
 	LESSON_GET_API,
-	LESSON_INFO_API,
+	// LESSON_INFO_API,
 	LESSON_LIST_API,
 	LESSON_EDIT_API
 } from 'constants/api'
@@ -13,15 +13,16 @@ import {
 	LESSON_EDIT_REQUEST,
 	LESSON_EDIT_SUCCESS,
 	LESSON_EDIT_FAILURE,
-	LESSON_INFO_REQUEST,
-	LESSON_INFO_SUCCESS,
-	LESSON_INFO_FAILURE,
+	// LESSON_INFO_REQUEST,
+	// LESSON_INFO_SUCCESS,
+	// LESSON_INFO_FAILURE,
 	LESSON_LIST_REQUEST,
 	LESSON_LIST_SUCCESS,
 	LESSON_LIST_FAILURE,
 	LESSON_GET_REQUEST,
 	LESSON_GET_SUCCESS,
-	LESSON_GET_FAILURE
+	LESSON_GET_FAILURE,
+	LIST_TEAM_LESSON_SUCCESS
 } from 'constants/ActionTypes'
 import fetch  from 'isomorphic-fetch'
 import { object2string } from 'utils/convert'
@@ -217,6 +218,30 @@ export const listLesson = ( args ) => {
 			}
 		}).catch( error => {
 			dispatch(listLessonFailure(error.message))
+		})
+	}
+}
+
+const listTeamLessonSuccess = list => ({
+	type:LIST_TEAM_LESSON_SUCCESS,
+	list
+})
+
+export const listTeamLesson = args =>{
+	return dispatch => {
+		return fetch(`${LESSON_LIST_API}?${object2string(args)}`)
+		.then( response => {
+			if( response.ok ){
+				return response.json()
+			}else {
+				throw new Error(response.statusText)
+			}
+		}).then( data => {
+			if( data.code === OK ){
+				dispatch(listTeamLessonSuccess(data.list))
+			}else {
+				throw new Error(data.msg)
+			}
 		})
 	}
 }

@@ -29,7 +29,8 @@ const lessonRoute = store => ({
 		require('./addRoute').default(store),
 		require('./listRoute').default(store),
 		require('./editRoute').default(store),
-		require('./detailRoute').default(store)
+		require('./detailRoute').default(store),
+        require('./list2Route').default(store)
 	]
 })
 

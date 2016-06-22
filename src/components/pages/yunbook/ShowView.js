@@ -1,47 +1,40 @@
 import React from 'react'
-import { Map, TileLayer} from 'react-leaflet'
+// import { Map, TileLayer} from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
 
 const styles = {
     map:{
-        height:600
+        height:750
     }
 }
 class ShowView extends React.Component{
-    componentDidMount(){
-        if( !this.refs._map ) return
-        const api = this.refs._map.leafletElement
-        const bounds = [
-            api.unproject([
-                0, this.props.yunbook.height
-            ], this.props.yunbook.zoom), 
-            api.unproject([
-                this.props.yunbook.width, 0
-            ], this.props.yunbook.zoom)
-        ]
-        api.fitBounds(bounds)
-        api.setMaxBounds(bounds)
-        api.setZoom(2)
-    }
-    render(){
-        const { yunbook } = this.props
-        if( !yunbook ){
-            return (null)
-        }
+    componentWillReceiveProps(nextProps){
+        const { yunbook } = nextProps
         const url = `${yunbook.path}/{z}/{x}/{y}.png`
+        this._map =  L.map('_map',{
+            maxZoom:yunbook.zoom,
+            minZoom:0,
+            attributionControl: false
+        })
+        const bounds =new L.LatLngBounds(this._map.unproject([
+            0, yunbook.height
+        ], yunbook.zoom), this._map.unproject([
+            yunbook.width, 0
+        ], yunbook.zoom))    
+        this._map.setMaxBounds(bounds)
+        this._map.fitBounds(bounds)
+        L.tileLayer(url,{
+            minZoom:0,
+            maxZoom:yunbook.zom,
+            bounds:bounds,
+            noWrap:true
+        }).addTo(this._map)
+    } 
+    render(){
         return (
-            <Map
-                 ref = '_map'                
-                 style ={styles.map}
-                 attributionControl = {false}
-                 bounds = {[[0, this.props.yunbook.height],[this.props.yunbook.width, 0]]}
-            >
-                <TileLayer
-                    minZoom = { 0 }
-                    maxZoom = { yunbook.zoom }
-                    noWrap = {true} 
-                    url={ url }
-                />
-            </Map>
+            <div id='_map' style={ styles.map } >
+            </div>
         )
     }
 }

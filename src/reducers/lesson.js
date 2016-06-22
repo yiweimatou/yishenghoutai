@@ -5,20 +5,22 @@ import {
 	LESSON_EDIT_REQUEST,
 	LESSON_EDIT_SUCCESS,
 	LESSON_EDIT_FAILURE,
-	LESSON_INFO_REQUEST,
-	LESSON_INFO_SUCCESS,
-	LESSON_INFO_FAILURE,
+	// LESSON_INFO_REQUEST,
+	// LESSON_INFO_SUCCESS,
+	// LESSON_INFO_FAILURE,
 	LESSON_LIST_REQUEST,
 	LESSON_LIST_SUCCESS,
 	LESSON_LIST_FAILURE,
 	LESSON_GET_REQUEST,
 	LESSON_GET_SUCCESS,
-	LESSON_GET_FAILURE
+	LESSON_GET_FAILURE,
+    LIST_TEAM_LESSON_SUCCESS
  } from 'constants/ActionTypes'
 
 
  const initialState = {
      list: [],
+     teamList:[],
      loading: false,
      method: '',
      errorMessage: '',
@@ -26,6 +28,10 @@ import {
  }
 
  const ACTION_HANDLERS = {
+     [LIST_TEAM_LESSON_SUCCESS]:(state,action)=>({
+         ...state,
+         teamList:action.list
+     }),
      [LESSON_GET_REQUEST]: state => ({
              ...state,
          loading: true,
@@ -85,7 +91,7 @@ import {
              ...state,
          loading: false,
          method: '',
-         list: state.list.concat(action.lessons)
+         list: action.lessons
      }),
      [LESSON_LIST_FAILURE]: (state, action) => ({
              ...state,

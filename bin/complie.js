@@ -16,8 +16,6 @@ console.log('app:bin:compile')
             console.log('Config set to fail on warning, exiting with status code "1".')
             process.exit(1)
         }
-        fse.copySync(path.join(__dirname, '../', '/static'), path.join(__dirname, '../', '/dist'))
-        console.log('Copy static assets to dist folder.')
     } catch (e) {
         console.log('Compiler encountered an error.', e)
         process.exit(1)

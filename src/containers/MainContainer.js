@@ -23,8 +23,9 @@ const mapDispatchToProps = dispatch => {
             dispatch(push(value))
         },
         logoutHandler:()=>{
-            dispatch( logout() )
-            dispatch(push('/login'))
+            dispatch( logout() ).then(()=>{
+                dispatch(push('/login'))  
+            })
         }
     }
 }

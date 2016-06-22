@@ -32,18 +32,19 @@ class AppNavDrawer extends React.Component{
 					<ListItem primaryText="后台主页" value="/" />
 					{admin?(<ListItem primaryText = "我管理的机构" value = "/organize/list" />):null}
 					{
-						(admin || doctor) ?
+						(admin || doctor || doctorAssistant) ?
 						(<ListItem 
 							primaryText="课程管理" 
 							primaryTogglesNestedList = {true}
 							nestedItems = {[
 								<ListItem primaryText = "新增" value = "/lesson/add" />,
-								<ListItem primaryText = "列表" value = "/lesson/list" />
+								<ListItem primaryText = "我的主讲课程" value = "/lesson/list" />,
+								<ListItem primaryText = "我的团队课程" value = "/lesson/teamlist" />
 							]}		
 						/>):null
 					}
 					{
-						(doctor) ?
+						(doctorAssistant) ?
 						<ListItem 
 							primaryText="云板书管理" 
 							primaryTogglesNestedList = {true}
@@ -61,7 +62,6 @@ class AppNavDrawer extends React.Component{
 						primaryText="个人设置" 
 						primaryTogglesNestedList = {true}
 						nestedItems = {[
-							<ListItem primaryText = "基本信息" value = "/setting/basic" />,
 							<ListItem primaryText = "修改密码" value = "/setting/changepwd" />
 						]}			
 					/>
