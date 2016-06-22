@@ -22,7 +22,7 @@ const styles = {
         marginTop:30
     }
 }
-class ChangepwdView extends React.Component {
+class ChangePwdView extends React.Component {
 	render(){
 		const {
             handleSubmit,submitting,invalid,reset
@@ -61,11 +61,11 @@ class ChangepwdView extends React.Component {
 	}
 }
 
-ChangepwdView.propTypes = {
+ChangePwdView.propTypes = {
     handleSubmit : React.PropTypes.func.isRequired,
     submitting : React.PropTypes.bool.isRequired,
     invalid : React.PropTypes.bool.isRequired,
     reset : React.PropTypes.func.isRequired
 }
 
-export default ChangepwdView
+export default ChangePwdView

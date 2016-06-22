@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/server",
     "test": "./node_modules/.bin/ava",
-    "deploy": "set NODE_ENV=production&&babel-node ./bin/complie"
+    "deploy": "export NODE_ENV=production&&babel-node ./bin/complie"
   },
   "ava": {
     "files": [

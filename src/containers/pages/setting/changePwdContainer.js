@@ -1,5 +1,5 @@
 import { reduxForm } from 'redux-form'
-import ChangepwdView from 'components/pages/setting/ChangepwdView'
+import ChangepwdView from 'components/pages/setting/ChangePwdView'
 import { changepwd } from 'actions/auth'
 
 const validate = values => {
