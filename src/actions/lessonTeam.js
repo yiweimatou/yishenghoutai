@@ -141,7 +141,7 @@ export const getLessonTeamList = args => {
             } else {
                 throw new Error(data.msg)
             }
-        }).then(() => {
+        }).catch(() => {
             dispatch(getLessonTeamListFailure())
         })
     }

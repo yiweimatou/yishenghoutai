@@ -1,14 +1,24 @@
 import React from 'react'
 import { Avatar } from 'material-ui'
 
+const styles ={
+    div:{
+        margin:10,
+        display:'flex',
+        alignItems:'center'
+    },
+    span:{
+        margin:10
+    }
+}
 class OrganizeView extends React.Component {
     render(){
         const { organize } = this.props
         if( !organize ) return (null)
         return (
-            <div>
+            <div style={styles.div}>
                 <Avatar src = { organize.logo } size = { 60 }/>
-                <span>{ organize.oname }</span>
+                <span style={styles.span}>{ organize.oname }</span>
             </div>
         )
     }
