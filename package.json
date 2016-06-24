@@ -4,9 +4,9 @@
   "description": "医生内容管理后台",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/server",
+    "start": "set NODE_ENV=development&&node ./bin/server",
     "test": "./node_modules/.bin/ava",
-    "deploy": "export NODE_ENV=production&&babel-node ./bin/complie"
+    "deploy": "set NODE_ENV=production&&babel-node ./bin/complie"
   },
   "ava": {
     "files": [

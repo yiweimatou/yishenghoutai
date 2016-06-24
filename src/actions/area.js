@@ -41,12 +41,12 @@ const listAreaRequest = () => {
 	}
 }
 
-const listAreaSuccess = ( list ) => {
+const listAreaSuccess = ( list,zoom ) => {
 	return {
 		type :AREA_LIST_SUCCESS,
 		list,
-		pid : list[0].pid,
-		zoom : list[0].zoom
+		pid : list.length>0?list[0].pid:null,
+		zoom :zoom
 	}
 }
 
@@ -74,11 +74,7 @@ export const listAreaIfNeeded = args => {
 					}
 				}).then( data => {
 					if( data.code === OK){
-						if( data.list.length > 0 ){
-							dispatch(listAreaSuccess(data.list))
-						}else {
-							dispatch(listAreaFailure(''))
-						}
+						dispatch(listAreaSuccess(data.list,args.zoom))
 					}else{
 						throw new Error(data.msg)
 					}
