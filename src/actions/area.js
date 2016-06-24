@@ -17,7 +17,7 @@ export const setSelectedAreaSuccess = (aid,zoom) => ({
 export const getArea = args => {
 	return (dispatch,getState)=> {
 		const user = getState().auth.user
-		return fetch(`${AREA_GET_API}?key=${user.id}&token=${user.token}${object2string(args)}`).then( response=>{
+		return fetch(`${AREA_GET_API}?key=${user.id}&token=${user.token}&${object2string(args)}`).then( response=>{
 			if( response.ok ){
 				return response.json()
 			}else {
@@ -62,7 +62,7 @@ export const listAreaIfNeeded = args => {
 		const user =  getState().auth.user
 		const list = getState().area.list?getState().area.list[args.pid]:null
 		if(list){
-			return dispatch(listAreaSuccess(list))
+			return dispatch(listAreaSuccess(list,args.zoom))
 		}else{
 			dispatch(listAreaRequest())
 			return fetch(`${AREA_LIST_API}?key=${user.id}&token=${user.token}&limit=50&${object2string(args)}`)

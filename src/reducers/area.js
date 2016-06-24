@@ -18,7 +18,7 @@ const initialState = {
 
 const ACTION_HANDLERS = {
 	[SET_SELECTED_AREA_SUCCESS]: (state, action) => {
-		const array = state.select.slice(0, 3)
+		const array = state.select.slice()
 		array[action.zoom - 4] = action.aid
 		return {
 			...state,
@@ -30,28 +30,28 @@ const ACTION_HANDLERS = {
 		loading: true
 	}),
 	[AREA_LIST_SUCCESS]: (state, action) => {
-		if (action.zoom === 5) {
-			return {
-				...state,
-				loading: false,
-				list: action.list.length>0?Object.assign({}, state.list, {
-					[action.pid]: action.list
-				}):state.list,
-				[action.zoom]: action.list,
-				[6]:[],
-				[7]:[]
-			}
-		}else if( action.zoom === 6){
-			return {
-				...state,
-				loading: false,
-				list: action.list.length>0?Object.assign({}, state.list, {
-					[action.pid]: action.list
-				}):state.list,
-				[action.zoom]: action.list,
-				[7]:[]
-			}
-		}else{
+		// if (action.zoom === 5) {
+		// 	return {
+		// 		...state,
+		// 		loading: false,
+		// 		list: action.list.length>0?Object.assign({}, state.list, {
+		// 			[action.pid]: action.list
+		// 		}):state.list,
+		// 		[action.zoom]: action.list,
+		// 		[6]:[],
+		// 		[7]:[]
+		// 	}
+		// }else if( action.zoom === 6){
+		// 	return {
+		// 		...state,
+		// 		loading: false,
+		// 		list: action.list.length>0?Object.assign({}, state.list, {
+		// 			[action.pid]: action.list
+		// 		}):state.list,
+		// 		[action.zoom]: action.list,
+		// 		[7]:[]
+		// 	}
+		// }else{
 			return {
 				...state,
 				loading: false,
@@ -60,7 +60,7 @@ const ACTION_HANDLERS = {
 				}):state.list,
 				[action.zoom]: action.list
 			}
-		}
+		// }
 	},
 	[AREA_LIST_FAILURE]: (state, action) => ({
 		...state,

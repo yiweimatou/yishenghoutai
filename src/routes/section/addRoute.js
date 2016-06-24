@@ -35,7 +35,7 @@ const addRoute = store => ({
             lid
         }))).then( lesson=>{
             if( lesson && lesson.aid > 0 ){
-                return getArea( {aid:lesson.aid} ) 
+                return store.dispatch(getArea( {aid:lesson.aid} ))
             }else{
                 throw new Error( '获取课程失败' )
             }
@@ -46,7 +46,7 @@ const addRoute = store => ({
             }))
             //set zoom 6 select
             store.dispatch( setSelectedAreaSuccess(area.aid,area.zoom) )
-            return getArea({aid:area.pid})
+            return store.dispatch(getArea({aid:area.pid}))
         }).then( area => {
             store.dispatch( listAreaIfNeeded({
                 pid:area.aid,
@@ -54,7 +54,7 @@ const addRoute = store => ({
             }))
             //set zoom 5 select
             store.dispatch( setSelectedAreaSuccess(area.aid,area.zoom))
-            return getArea({aid:area.pid})
+            return store.dispatch(getArea({aid:area.pid}))
         }).then( area => {
             store.dispatch( listAreaIfNeeded({
                 pid:area.aid,

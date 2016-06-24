@@ -77,10 +77,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     changeHandler: (pid, zoom) => {
-        return dispatch(listAreaIfNeeded({
+        return Promise.resolve(dispatch(listAreaIfNeeded({
             pid,
             zoom
-        }))
+        })))
     },
     onChange: file => {
         dispatch( change('addYunbook','file',file) )
