@@ -69,9 +69,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     initialEditView: (aid, sid) => {
-        getArea({
+        dispatch(getArea({
                 aid: aid
-            })
+            }))
             .then(area => {
                 dispatch(listAreaIfNeeded({
                         pid: area.aid,
@@ -79,9 +79,9 @@ const mapDispatchToProps = dispatch => ({
                     }))
                     //set zoom 6 select
                 dispatch(setSelectedAreaSuccess(area.aid, area.zoom))
-                return getArea({
+                return dispatch(getArea({
                     aid: area.pid
-                })
+                }))
             }).then(area => {
                 dispatch(listAreaIfNeeded({
                         pid: area.aid,
@@ -89,9 +89,9 @@ const mapDispatchToProps = dispatch => ({
                     }))
                     //set zoom 5 select
                 dispatch(setSelectedAreaSuccess(area.aid, area.zoom))
-                return getArea({
+                return dispatch(getArea({
                     aid: area.pid
-                })
+                }))
             }).then(area => {
                 dispatch(listAreaIfNeeded({
                         pid: area.aid,

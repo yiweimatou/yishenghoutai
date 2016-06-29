@@ -35,17 +35,17 @@ export const fetchAreas = args => {
         } 
     }).then( data=>{
         if( data.code === OK ){
-            return {
+            return Promise.resolve({
                 ok:true,
                 list:data.list
-            }
+            })
         }else{ 
             throw new Error( data.msg )
         }
     }).catch( error=>{
-        return {
+        return Promise.resolve({
             msg:error.message
-        }
+        })
     })
 }
 
@@ -60,7 +60,7 @@ export const getArea = args => {
             }
         }).then(data => {
             if (data.code === OK) {
-                return data.get
+                return Promise.resolve(data.get)
             } else {
                 throw new Error(data.msg)
             }

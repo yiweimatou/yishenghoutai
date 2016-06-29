@@ -28,9 +28,12 @@ class AreaSelect3 extends React.Component {
         }
     }
     componentWillReceiveProps(nextProps){
-        if (this.props.select&&this.props.select[0] !== nextProps.select[0]) {
+        this.setState({select:nextProps.select})
+    }
+    componentWillMount(){
+        if(this.props.select[0]){
             this.setState({
-                select: nextProps.select
+                select:this.props.select
             })
         }
     }

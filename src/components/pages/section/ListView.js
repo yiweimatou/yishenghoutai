@@ -7,11 +7,19 @@ import {
     TableRow, 
     TableRowColumn, 
     FlatButton,
-    Dialog
+    Dialog,
+    Tabs,
+    Tab
 } from 'material-ui'
 import PagingTableFooter from '../../PagingTableFooter'
 import EditView from './EditView'
 
+const styles = {
+	content:{
+		width:'100%',
+		maxWidth:'none'
+	}
+}
 class ListView extends React.Component {
     state = {
         id:-1,
@@ -58,15 +66,22 @@ class ListView extends React.Component {
                     title = '编辑'
                     open={ this.state.open }
                     onRequestClose = { this.handleOpen }
+                    contentStyle = { styles.content }
                 >
-                    <EditView
-                        areas4 = { areas4 }
-                        areas5 = { areas5 }
-                        areas6 = { areas6 }
-                        areas7 = { areas7 }
-                        select = { select }
-                        onSubmit = { (values)=>editHandler(this.handleOpen,values) }
-                    />
+                    <Tabs>
+                        <Tab label =  '基本信息编辑'>
+                            <EditView
+                                areas4 = { areas4 }
+                                areas5 = { areas5 }
+                                areas6 = { areas6 }
+                                areas7 = { areas7 }
+                                select = { select }
+                                onSubmit = { (values) => editHandler(this.handleOpen, values) }
+                            />
+                        </Tab>
+                        <Tab label = '云板书标注编辑'> 
+                        </Tab>
+                    </Tabs>
                 </Dialog>
                 <Table
                     selectable={ true }

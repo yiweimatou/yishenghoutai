@@ -37,7 +37,8 @@ const getAreas = (zoom,pid) => {
     return ( dispatch,getState )=>{
         const areaState = getState().area
         if(areaState&&areaState.list[pid]){
-            return dispatch( fetchAreaByZoomAndPidSuccess(areaState.list[pid]) ) 
+            dispatch( fetchAreaByZoomAndPidSuccess(areaState.list[pid]) ) 
+            return Promise.resolve(areaState.list[pid])
         }
         const user = getState().auth.user
         return fetchAreas({
@@ -47,7 +48,7 @@ const getAreas = (zoom,pid) => {
             pid
         }).then( areas => {
             if( areas.ok ){
-                return areas.list
+                return Promise.resolve(areas.list)
             }else{
                 throw new Error( areas.msg )
             }
@@ -61,35 +62,35 @@ export const fetchSelectedArea = (aid)=>{
     return (dispatch) => {
         dispatch( getArea({aid}) ).then(area=>{
             if(area){
-                dispatch(getAreas(7,area.pid)).then(areas=>{
+                return dispatch(getAreas(7,area.pid)).then(areas=>{
                     dispatch(fetchSelectdAreaSuccess(areas,7,area.aid))
+                    return dispatch( getArea({aid:area.pid}) )
                 })
-                return dispatch( getArea({aid:area.pid}) )
             }else{
                 throw new Error(`get area failure aid:${aid}`)
             }
         }).then( area=>{
             if(area){
-                dispatch(getAreas(6,area.pid)).then(areas=>{
+                return dispatch(getAreas(6,area.pid)).then(areas=>{
                     dispatch(fetchSelectdAreaSuccess(areas,6,area.aid))
+                    return dispatch( getArea({aid:area.pid}) )                
                 })
-                return dispatch( getArea({aid:area.pid}) )
             }else{
                 throw new Error(`get area failure aid:${area.aid}`)
             }
         }).then( area=>{
             if(area){
-                dispatch(getAreas(5,area.pid)).then(areas=>{
+                return dispatch(getAreas(5,area.pid)).then(areas=>{
                     dispatch(fetchSelectdAreaSuccess(areas,5,area.aid))
+                    return dispatch( getArea({aid:area.pid}) )                
                 })
-                return dispatch( getArea({aid:area.pid}) )
             }else{
                 throw new Error(`get area failure aid:${area.aid}`)
             }
         }).then( area=>{
             if(area){
-                dispatch(getAreas(4,area.pid)).then(areas=>{
-                    dispatch(fetchSelectdAreaSuccess(areas,4,area.aid))
+                return dispatch(getAreas(4,area.pid)).then(areas=>{
+                    return dispatch(fetchSelectdAreaSuccess(areas,4,area.aid))
                 })
             }else{
                 throw new Error(`get area failure aid:${area.aid}`)

@@ -60,7 +60,6 @@ class EditView extends React.Component{
             code:null,
             layer:null
         }
-        this.onChange = editorState => this.setState({editorState})
         this.handleClose = ()=>{
             this.setState({
                 open:!this.state.open
