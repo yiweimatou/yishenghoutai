@@ -24,7 +24,8 @@
     "globals": {
         "__DEV__": true,
         "__PROD__": false,
-        "__DEBUG__": true
+        "__DEBUG__": true,
+        "$":true
     },
     "settings": {
         "import/parser": "babel-eslint",

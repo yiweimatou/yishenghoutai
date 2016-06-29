@@ -14,7 +14,8 @@ const yunbookRoute = store => ({
 	childRoutes:[
 		require('./addRoute').default(store),
 		require('./listRoute').default(store),
-		require('./showRoute').default( store )
+		require('./showRoute').default( store ),
+		require('./editRoute').default( store )
 	]
 })
 

@@ -1,13 +1,15 @@
 import React from 'react'
+import IconButton from 'material-ui/IconButton' 
 import { GridList,GridTile } from 'material-ui/GridList'
 import Pager from '../../Pager'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
+import { EditorModeEdit } from 'material-ui/svg-icons'    
 
 class ListView extends React.Component {
     render(){
         const {
-            onClick,list,offset,limit,total,onPageClick,padding,cols,selectIdHandler
+            onClick,list,offset,limit,total,onPageClick,padding,cols,selectIdHandler,onEditClick
         } = this.props
         return (
             <div>
@@ -25,12 +27,15 @@ class ListView extends React.Component {
                                         <FloatingActionButton 
                                             mini ={ true }
                                             onClick = { 
-                                                ()=>selectIdHandler(tile.bid,tile.title)
+                                                ()=>selectIdHandler(tile.bid,tile.title,tile.lbl)
                                             } 
                                         >
                                             <ContentAdd />
                                         </FloatingActionButton> 
-                                        :null
+                                        :
+                                        <IconButton onClick = { ()=>onEditClick(tile.bid) }>
+                                            <EditorModeEdit />
+                                        </IconButton>
                                     }
                                 >
                                     <img
@@ -61,6 +66,7 @@ ListView.propTypes = {
     padding:React.PropTypes.number,
     cols:React.PropTypes.number,
     selectIdHandler:React.PropTypes.func,
-    onClick:React.PropTypes.func.isRequired
+    onClick:React.PropTypes.func.isRequired,
+    onEditClick:React.PropTypes.func
 }
 export default ListView

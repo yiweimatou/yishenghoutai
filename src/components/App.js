@@ -3,6 +3,7 @@ import {
     getMuiTheme,
     MuiThemeProvider
 } from 'material-ui/styles'
+import 'react-redux-toastr/src/less/index.less'
 
 class App extends React.Component {
     render() {

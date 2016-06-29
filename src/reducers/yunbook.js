@@ -2,15 +2,15 @@ import {
 	YUNBOOK_ADD_REQUEST,
 	YUNBOOK_ADD_SUCCESS,
 	YUNBOOK_ADD_FAILURE,
-	YUNBOOK_GET_REQUEST,
+	// YUNBOOK_GET_REQUEST,
 	YUNBOOK_GET_SUCCESS,
-	YUNBOOK_GET_FAILURE,
+	// YUNBOOK_GET_FAILURE,
 	YUNBOOK_LIST_SUCCESS,
 	YUNBOOK_LIST_REQUEST,
 	YUNBOOK_LIST_FAILURE,
-	YUNBOOK_EDIT_REQUEST,
+	// YUNBOOK_EDIT_REQUEST,
 	YUNBOOK_EDIT_SUCCESS,
-	YUNBOOK_EDIT_FAILURE,
+	// YUNBOOK_EDIT_FAILURE,
 	YUNBOOK_INFO_REQUEST,
 	YUNBOOK_INFO_SUCCESS,
 	YUNBOOK_INFO_FAILURE,
@@ -35,6 +35,21 @@ const initialState = {
 }
 
 const ACTION_HANDLERS = {
+	[YUNBOOK_EDIT_SUCCESS]:(state,action)=>({
+		...state,
+		list:state.list.map(item=>{
+			if( item.bid === action.yunbook.bid ){
+				return Object.assign({},item,yunbook)
+			}
+			return item
+		}),
+		myList:state.myList.map(item=>{
+			if( item.bid === action.yunbook.bid ){
+				return Object.assign({},item,yunbook)
+			}
+			return item
+		})
+	}),
 	[YUNBOOK_GET_SUCCESS]:(state,action) => ({
 		...state,
 		detail:action.yunbook

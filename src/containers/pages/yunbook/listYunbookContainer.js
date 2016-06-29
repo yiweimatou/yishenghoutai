@@ -26,6 +26,12 @@ const mapDispatchToProps = dispatch => ({
     },
     onClick : bid => {
         dispatch( push(`/yunbook/show/${bid}`) )
+    },
+    onEditClick:id => {
+        if( !id ){
+            return
+        }
+        dispatch( push(`/yunbook/edit/${id}`))
     }
 })
 

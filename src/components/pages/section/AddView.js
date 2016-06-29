@@ -41,9 +41,9 @@ class AddView extends React.Component {
             open:!this.state.open
         })
     }
-    handlerSelectId = (id,name) => {
+    handlerSelectId = (id,name,lbl) => {
         this.refs.bname.input.value = name
-        this.props.selectIdHandler(id,this.openHandler)
+        this.props.selectIdHandler(id,lbl,this.openHandler)
     }
     render(){
         const {

@@ -1,8 +1,8 @@
 const path = require('path')
-const webpack = require ('webpack')
-// const cssnano = require ('cssnano')
-const HtmlWebpackPlugin = require ('html-webpack-plugin')
-const ExtractTextPlugin = require ('extract-text-webpack-plugin')
+const webpack = require('webpack')
+    // const cssnano = require ('cssnano')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const __DEV__ = process.env.NODE_ENV !== 'production'
 const webpackConfig = {
@@ -13,21 +13,22 @@ const webpackConfig = {
         resolve: {
             root: path.join(__dirname, 'src'),
             extensions: ['', '.js', '.jsx', '.json', '.css'],
-            alias:{
-                components:path.join(__dirname,'src','components'),
-                pages:path.join(__dirname,'src/components/pages'),
-                constants:path.join(__dirname,'src/constants'),
-                reducers:path.join(__dirname,'src/reducers'),
-                actions:path.join(__dirname,'src/actions'),
-                containers:path.join(__dirname,'src/containers'),
-                utils:path.join(__dirname,'src/utils')
+            alias: {
+                // jquery: require('jquery'),
+                components: path.join(__dirname, 'src', 'components'),
+                pages: path.join(__dirname, 'src/components/pages'),
+                constants: path.join(__dirname, 'src/constants'),
+                reducers: path.join(__dirname, 'src/reducers'),
+                actions: path.join(__dirname, 'src/actions'),
+                containers: path.join(__dirname, 'src/containers'),
+                utils: path.join(__dirname, 'src/utils')
             }
         },
         module: {}
     }
-// ------------------------------------
-// Entry Points
-// ------------------------------------
+    // ------------------------------------
+    // Entry Points
+    // ------------------------------------
 const APP_ENTRY_PATH = path.join(__dirname, 'src') + '/client.js'
 webpackConfig.entry = {
     app: __DEV__ ? [
@@ -59,6 +60,10 @@ webpackConfig.output = {
 // Plugins
 // ------------------------------------
 webpackConfig.plugins = [
+    // new webpack.ProvidePlugin({
+    //     $:'jquery',
+    //     jQuery:'jquery'
+    // }),
     new HtmlWebpackPlugin({
         template: path.join(__dirname, 'src/index.html'),
         hash: false,
@@ -76,21 +81,23 @@ if (__DEV__) {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
+            'require.specified': 'require.resolve',
             'process.env': {
                 NODE_ENV: JSON.stringify('development')
             },
-            __DEV__:true,
-            Promise:require('bluebird')
+            __DEV__: true,
+            Promise: require('bluebird')
         })
     )
 } else {
     webpackConfig.plugins.push(
         new webpack.DefinePlugin({
+            'require.specified': 'require.resolve',
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
             },
-            __DEV__:false,
-            Promise:require('bluebird')
+            __DEV__: false,
+            Promise: require('bluebird')
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
@@ -106,15 +113,18 @@ if (__DEV__) {
 
 // Don't split bundles during testing, since we only want import one bundle
 webpackConfig.plugins.push(
-    new webpack.optimize.CommonsChunkPlugin('vendor','vendor.bundle.js')
-)
-// ------------------------------------
-// Loaders
-// ------------------------------------
+        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
+    )
+    // ------------------------------------
+    // Loaders
+    // ------------------------------------
 webpackConfig.module.loaders = [{
     test: /\.css$/,
     loader: 'style-loader!css-loader'
 }, {
+    test: /\.less$/,
+    loader: 'style-loader!css-loader!less-loader'
+},  {
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
     include: path.resolve(__dirname, 'src'),
@@ -187,4 +197,4 @@ if (!__DEV__) {
 
 }
 
-module.exports =  webpackConfig
+module.exports = webpackConfig

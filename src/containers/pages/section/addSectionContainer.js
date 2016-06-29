@@ -37,10 +37,11 @@ const mapDispatchToProps = dispatch => ({
             offset,limit
         }))
     },
-    selectIdHandler: (bid,close) => {
+    selectIdHandler: (bid,lbl,close) => {
         if(!bid){
             return
         }
+        dispatch(change('addSection','lbl',lbl))
         Promise.resolve(dispatch(change('addSection','bid',bid)))
         .then(()=>{
             close()

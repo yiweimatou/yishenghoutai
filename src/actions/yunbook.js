@@ -2,15 +2,15 @@ import {
 	YUNBOOK_ADD_REQUEST,
 	YUNBOOK_ADD_SUCCESS,
 	YUNBOOK_ADD_FAILURE,
-	YUNBOOK_GET_REQUEST,
+	// YUNBOOK_GET_REQUEST,
 	YUNBOOK_GET_SUCCESS,
-	YUNBOOK_GET_FAILURE,
+	// YUNBOOK_GET_FAILURE,
 	YUNBOOK_LIST_SUCCESS,
 	YUNBOOK_LIST_REQUEST,
 	YUNBOOK_LIST_FAILURE,
-	YUNBOOK_EDIT_REQUEST,
+	// YUNBOOK_EDIT_REQUEST,
 	YUNBOOK_EDIT_SUCCESS,
-	YUNBOOK_EDIT_FAILURE,
+	// YUNBOOK_EDIT_FAILURE,
 	YUNBOOK_INFO_REQUEST,
 	YUNBOOK_INFO_SUCCESS,
 	YUNBOOK_INFO_FAILURE,
@@ -30,6 +30,42 @@ import {
 import fetch from 'isomorphic-fetch'
 import { object2string } from 'utils/convert'
 import { toastr } from 'react-redux-toastr'
+
+const editYunbookSuccess = yunbook => ({
+	type:YUNBOOK_EDIT_SUCCESS,
+	yunbook
+})
+export const editYunbook = yunbook => {
+	return (dispatch,getState) =>{
+		const user = getState().auth.user
+		return fetch(YUNBOOK_EDIT_API,{
+			headers:{
+				'Content-Type':'application/x-www-form-urlencoded'
+			},
+			method:'PUT',
+			body:`key=${user.id}&token=${user.token}&${object2string(yunbook)}`
+		}).then( response=>{
+			if( response.ok ){
+				return response.json()
+			}else{
+				throw new Error( response.statusText )
+			}
+		}).then( data=>{
+			if( data.code === OK ){
+				dispatch( editYunbookSuccess(yunbook) )
+				return {
+					ok:true
+				}
+			}else{
+				throw new Error( data.msg )
+			}
+		}).catch( error => {
+			return {
+				msg:error.message
+			}
+		})
+	}
+}
 
 export const getYunbookSuccess = (yunbook) => ({
 	type:YUNBOOK_GET_SUCCESS,

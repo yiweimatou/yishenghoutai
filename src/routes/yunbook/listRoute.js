@@ -15,7 +15,7 @@ const listRoute = store => ({
     getComponent(nextState,cb){
         require.ensure([],require => {
             cb(null,require('../../containers/pages/yunbook/listYunbookContainer').default)
-        })
+        },'listYunbook')
     }
 })
 
