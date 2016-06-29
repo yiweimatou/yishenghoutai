@@ -105,7 +105,9 @@ class DetialView extends React.Component {
 			admin,
 			editHandler,
 			deleteHandler,
-			initialEditView
+			initialEditView,
+			yunbook,
+			changeLbl
 		} = this.props
 		if( !lesson ){
 			return (null)
@@ -203,6 +205,8 @@ class DetialView extends React.Component {
 						onPageClick={ ()=>sectionPagerHandler(offset,limit,lesson.lid) }
 						editHandler = { editHandler }
 						deleteHandler = { deleteHandler }
+						yunbook = { yunbook }
+						changeLbl = {changeLbl}
 					/>
 				</Paper>
 				<Dialog 
@@ -308,7 +312,9 @@ DetialView.propTypes = {
     areas5:React.PropTypes.array.isRequired,
     areas6:React.PropTypes.array.isRequired,
     areas7:React.PropTypes.array.isRequired,
-    select:React.PropTypes.array
+    select:React.PropTypes.array,
+	changeLbl:React.PropTypes.func,
+	yunbook:React.PropTypes.object
 }
 
 export default DetialView

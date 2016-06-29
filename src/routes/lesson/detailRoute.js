@@ -56,6 +56,13 @@ const detailRoute = store => ({
                 reducer
             })
         } 
+		if (store.asyncReducers['yunbook'] === undefined) {
+            const reducer = require('reducers/yunbook').default
+            injectReducer(store, {
+                key: 'yunbook',
+                reducer
+            })
+        } 
 		store.dispatch ( setTotal({
 			lid
 		}))

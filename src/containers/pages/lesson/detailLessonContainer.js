@@ -43,6 +43,9 @@ import {
     setSelectedAreaSuccess,
     getArea
 } from 'actions/area'
+import {
+    getYunbook
+} from 'actions/yunbook'
 
 const mapStateToProps = state => ({
     areas4: state.area[4],
@@ -64,10 +67,14 @@ const mapStateToProps = state => ({
         offset: state.section.offset,
         total: state.section.total
     },
-    admin: !!state.lesson.detail && state.lesson.detail.uid === state.auth.user.id
+    admin: !!state.lesson.detail && state.lesson.detail.uid === state.auth.user.id,
+    yunbook:state.yunbook.detail
 })
 
 const mapDispatchToProps = dispatch => ({
+    changeLbl: lbl => {
+        dispatch( change('editSection','lbl',lbl))
+    },
     initialEditView: (aid, sid) => {
         dispatch(getArea({
                 aid: aid
@@ -104,6 +111,7 @@ const mapDispatchToProps = dispatch => ({
             sid
         }).then(section => {
             if (section && section.sname) {
+                dispatch( getYunbook(section.bid) )
                 dispatch(initialize('editSection', {
                     sname: section.sname,
                     sid: section.sid,

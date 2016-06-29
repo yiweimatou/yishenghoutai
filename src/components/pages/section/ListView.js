@@ -7,9 +7,7 @@ import {
     TableRow, 
     TableRowColumn, 
     FlatButton,
-    Dialog,
-    Tabs,
-    Tab
+    Dialog
 } from 'material-ui'
 import PagingTableFooter from '../../PagingTableFooter'
 import EditView from './EditView'
@@ -58,7 +56,9 @@ class ListView extends React.Component {
             areas5,
             areas6,
             areas7,
-            select 
+            select,
+            changeLbl,
+            yunbook
         } = this.props
         return(
             <div>
@@ -68,20 +68,16 @@ class ListView extends React.Component {
                     onRequestClose = { this.handleOpen }
                     contentStyle = { styles.content }
                 >
-                    <Tabs>
-                        <Tab label =  '基本信息编辑'>
-                            <EditView
-                                areas4 = { areas4 }
-                                areas5 = { areas5 }
-                                areas6 = { areas6 }
-                                areas7 = { areas7 }
-                                select = { select }
-                                onSubmit = { (values) => editHandler(this.handleOpen, values) }
-                            />
-                        </Tab>
-                        <Tab label = '云板书标注编辑'> 
-                        </Tab>
-                    </Tabs>
+                    <EditView
+                        areas4 = { areas4 }
+                        areas5 = { areas5 }
+                        areas6 = { areas6 }
+                        areas7 = { areas7 }
+                        select = { select }
+                        onSubmit = { (values) => editHandler(this.handleOpen, values) }
+                        yunbook = {yunbook}
+                        changeLbl = {changeLbl}
+                    />
                 </Dialog>
                 <Table
                     selectable={ true }
@@ -148,7 +144,9 @@ ListView.propTypes = {
     areas5:React.PropTypes.array.isRequired,
     areas6:React.PropTypes.array.isRequired,
     areas7:React.PropTypes.array.isRequired,
-    select:React.PropTypes.array
+    select:React.PropTypes.array,
+    yunbook:React.PropTypes.object,
+    changeLbl:React.PropTypes.func
 }
 
 export default ListView
